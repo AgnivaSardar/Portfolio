@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGNIVA - 3D Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Interactive Background -->
+    <div class="interactive-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <canvas id="interactiveCanvas"></canvas>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <canvas id="loadingCanvas"></canvas>
+            <div class="loading-text">
+                <h2>POWERING UP</h2>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-status">Initializing systems...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="welcome-screen hidden">
+        <div class="welcome-container">
+            <h1 class="welcome-title">LET'S CREATE</h1>
+            <div class="welcome-loader">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <p class="welcome-text">Preparing something amazing...</p>
+        </div>
+    </div>
+
+    <!-- Main Portfolio -->
+    <div id="mainPortfolio" class="main-portfolio hidden">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link">HOME</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">ABOUT</a></li>
+                    <li class="nav-item"><a href="#projects" class="nav-link">PROJECTS</a></li>
+                    <li class="nav-item"><a href="#education" class="nav-link">EDUCATION</a></li>
+                    <li class="nav-item"><a href="#experience" class="nav-link">EXPERIENCE</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">CONTACT</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="geometric-accent"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Agniva<br/>
+                        <span class="highlight">Sardar</span><br/>
+                    </h1>
+                    <p class="hero-subtitle">Software Engineering Intern | Core Developer | B.Tech CS '28</p>
+                    <p class="hero-description">Building scalable, secure backend systems and full-stack applications. Interested in distributed systems, low-latency services, and owning features end-to-end across design, development, testing, and deployment.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">View Work</button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Let's Talk</button>
+                    </div>
+                </div>
+                <div class="hero-image-container">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-name-display">
+                            <span class="initial">A</span>
+                            <span class="initial">S</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Computer Science undergraduate (Class of 2028) at Vellore Institute of Technology, Chennai with a strong foundation in data structures, algorithms, and system design. Currently working as a Software Engineering Intern at Auracle Labs, building scalable backend services for an AI-driven edtech platform.</p>
+                        <p>Passionate about building low-latency, secure backend systems and owning features end-to-end. Experience spans full-stack development, database optimization, security implementation, and deploying production-grade services. Motivated to contribute to customer-centric, distributed systems at scale.</p>
+                        <div class="skills">
+                            <h3>Technical Skills</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Java</span>
+                                <span class="skill-tag">C/C++</span>
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">TypeScript</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">Express.js</span>
+                                <span class="skill-tag">PostgreSQL</span>
+                                <span class="skill-tag">Redis</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">AWS</span>
+                                <span class="skill-tag">JWT Auth</span>
+                                <span class="skill-tag">REST APIs</span>
+                                <span class="skill-tag">WebSocket</span>
+                                <span class="skill-tag">PyTorch</span>
+                                <span class="skill-tag">YOLO</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <div class="image-placeholder">
+                            <div class="tech-animation">
+                                <div class="orbit orbit-1"></div>
+                                <div class="orbit orbit-2"></div>
+                                <div class="orbit orbit-3"></div>
+                                <div class="center-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-placeholder">VIT-VERSE</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>VIT-Verse – Online Streaming Platform</h3>
+                            <p>Full-stack streaming platform for VIT with live/recorded lectures, course playlists, role-based access. Reduced latency to ~50-200ms for channels and ~300-800ms for video queries using indexed SQL and Redis caching.</p>
+                            <div class="project-tech">
+                                <span>Node.js</span>
+                                <span>TypeScript</span>
+                                <span>PostgreSQL</span>
+                                <span>Redis</span>
+                                <span>Socket.io</span>
+                            </div>
+                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-placeholder">StateVault</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>StateVault Prober – Web Vulnerability Scanner</h3>
+                            <p>Continual-learning security scanner modeling app state as graphs to detect logical flaws and access-control issues. Uses River online ML and PyTorch autoencoder for anomaly detection with React+Cytoscape.js visualization.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>FastAPI</span>
+                                <span>Playwright</span>
+                                <span>PyTorch</span>
+                                <span>NetworkX</span>
+                            </div>
+                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-placeholder">MoveSphere</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>MoveSphere – Logistics Management</h3>
+                            <p>Port and hangar inventory management web app with CRUD workflows, JWT authentication, RBAC, and email notifications. Applies layered architecture, REST API versioning, and distributed-systems design principles.</p>
+                            <div class="project-tech">
+                                <span>React</span>
+                                <span>Express.js</span>
+                                <span>PostgreSQL</span>
+                                <span>JWT</span>
+                            </div>
+                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-placeholder">ScreenGuard</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>ScreenGuardian – Content Moderation Tool</h3>
+                            <p>Real-time computer vision pipeline detecting and selectively blurring explicit/violent content on desktop screens. Focuses on inference optimization, dataset management, and system integration using YOLOv8s and YOLOv8n.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>YOLO</span>
+                                <span>Computer Vision</span>
+                                <span>PyTorch</span>
+                            </div>
+                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Section -->
+        <section id="activity" class="activity">
+            <div class="container">
+                <h2 class="section-title">Live Activity</h2>
+                <div class="activity-grid">
+                    <div class="activity-card github-card">
+                        <div class="activity-header">
+                            <h3>GitHub</h3>
+                            <a href="https://github.com/AgnivaSardar" target="_blank">@AgnivaSardar</a>
+                        </div>
+                        <div class="activity-stats">
+                            <div class="stat"><span id="ghRepos">--</span><label>Repos</label></div>
+                            <div class="stat"><span id="ghFollowers">--</span><label>Followers</label></div>
+                            <div class="stat"><span id="ghRecentCommits">--</span><label>Commits (30d)</label></div>
+                        </div>
+                    </div>
+
+                    <div class="activity-card leetcode-card">
+                        <div class="activity-header">
+                            <h3>LeetCode</h3>
+                            <a href="https://leetcode.com/u/AgnivaSardar/" target="_blank">AgnivaSardar</a>
+                        </div>
+                        <div class="leetcode-embed">
+                            <img src="https://leetcard.jacoblin.cool/AgnivaSardar?theme=dark&ext=activity" alt="LeetCode Stats" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="education">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jul 2024 – May 2028</div>
+                        <div class="timeline-content">
+                            <h3>B.Tech in Computer Science Engineering (Cyber Physical Systems)</h3>
+                            <p class="timeline-school">Vellore Institute of Technology, Chennai</p>
+                            <p class="timeline-description">CGPA: 9.35 / 10. Relevant coursework: Data Structures and Algorithms, Operating Systems, Database Management Systems, Computer Architecture and Organization, Web Programming (React, Express, Node.js).</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024</div>
+                        <div class="timeline-content">
+                            <h3>Smart India Hackathon 2024 & 2025</h3>
+                            <p class="timeline-school">Final Offline Intra-College Round</p>
+                            <p class="timeline-description">Ranked in the top 50 of ~800 campus teams by collaborating with a cross-functional student team to solve open-ended engineering problems under time pressure.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024</div>
+                        <div class="timeline-content">
+                            <h3>Lifology Global Fellow – Golden Award</h3>
+                            <p class="timeline-school">National Recognition</p>
+                            <p class="timeline-description">Ranked 2nd among 10,000 students nationwide for demonstrated leadership, communication skills, and strong academic performance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="experience">
+            <div class="container">
+                <h2 class="section-title">Work Experience</h2>
+                <div class="experience-timeline">
+                    <div class="experience-item">
+                        <div class="experience-date">Sep 2025 – Present</div>
+                        <div class="experience-content">
+                            <h3>Software Engineering Intern, Core Software Developer</h3>
+                            <p class="experience-company">Auracle Labs (Remote)</p>
+                            <p class="experience-description">Designed and implemented end-to-end backend services for an AI-driven edtech platform using TypeScript, Node.js, Express.js, PostgreSQL and Prisma. Improved login performance to ~165ms and analytics endpoints to ~15–40ms by implementing Redis caching plus pagination and indexing. Secured services using bcrypt, HTTPS, CORS, and Zod-based input validation.</p>
+                            <div class="experience-highlights">
+                                <span>TypeScript</span>
+                                <span>PostgreSQL</span>
+                                <span>Redis</span>
+                                <span>Docker</span>
+                                <span>JWT Auth</span>
+                                <span>AWS Lambda</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-date">Aug 2025 – Present</div>
+                        <div class="experience-content">
+                            <h3>Technical Developer</h3>
+                            <p class="experience-company">Mathematics Club, VIT Chennai</p>
+                            <p class="experience-description">Created and deployed the official club web application using React (SPA), Flask APIs and PostgreSQL on Render and Supabase, serving 20+ registered members. Cut organizer admin time by roughly 50% by replacing spreadsheet-based tracking with a database-backed web application. Implemented secure authentication and authorization using JWT, RBAC and bcrypt.</p>
+                            <div class="experience-highlights">
+                                <span>React</span>
+                                <span>Flask</span>
+                                <span>PostgreSQL</span>
+                                <span>JWT</span>
+                                <span>RBAC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <div class="testimonials-header">
+                    <span class="testimonials-icon">✨</span>
+                    <h2 class="section-title">REVIEWS & TESTIMONIALS</h2>
+                    <p class="testimonials-subtitle">What colleagues, seniors, and professors say about working with me</p>
+                </div>
+                
+                <div class="testimonials-carousel">
+                    <button class="carousel-btn prev-btn" aria-label="Previous testimonial">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="testimonials-track">
+                        <div class="testimonial-card active">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">"</div>
+                                <p class="testimonial-text">Agniva consistently delivers high-quality code and demonstrates exceptional problem-solving skills. His ability to optimize backend performance while maintaining code clarity is impressive. A valuable team member who takes ownership of his work.</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">RS</div>
+                                <div class="author-info">
+                                    <h4>Dr. Rajesh Sharma</h4>
+                                    <p>Senior Professor, Computer Science</p>
+                                    <span class="author-company">VIT Chennai</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">"</div>
+                                <p class="testimonial-text">Working with Agniva has been a great experience. He brings fresh ideas to the table and isn't afraid to tackle complex challenges. His work on our authentication system was particularly noteworthy - clean, secure, and well-documented.</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">AP</div>
+                                <div class="author-info">
+                                    <h4>Arjun Patel</h4>
+                                    <p>Lead Developer</p>
+                                    <span class="author-company">Auracle Labs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">"</div>
+                                <p class="testimonial-text">Agniva's contribution to our Mathematics Club web application exceeded expectations. He delivered a professional, scalable solution that transformed how we manage club activities. His technical expertise and communication skills made the collaboration seamless.</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">SM</div>
+                                <div class="author-info">
+                                    <h4>Sneha Mehta</h4>
+                                    <p>Club President</p>
+                                    <span class="author-company">Mathematics Club, VIT</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">"</div>
+                                <p class="testimonial-text">One of the most dedicated students I've had. Agniva shows genuine curiosity in understanding not just how things work, but why they work. His project on distributed systems demonstrated maturity beyond his years.</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">VK</div>
+                                <div class="author-info">
+                                    <h4>Prof. Vikram Kumar</h4>
+                                    <p>Associate Professor</p>
+                                    <span class="author-company">Department of CSE, VIT Chennai</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">"</div>
+                                <p class="testimonial-text">Agniva is a quick learner who adapts well to new technologies. During our internship program, he improved our API response times significantly and mentored junior developers. His passion for clean code and best practices is evident in everything he does.</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">NK</div>
+                                <div class="author-info">
+                                    <h4>Neha Kapoor</h4>
+                                    <p>Engineering Manager</p>
+                                    <span class="author-company">Auracle Labs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-btn next-btn" aria-label="Next testimonial">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="carousel-indicators"></div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="contact-wrapper">
+                    <div class="contact-info">
+                        <h3>Let's Connect</h3>
+                        <p>I'm always interested in hearing about new projects and opportunities. Feel free to reach out through any of these channels.</p>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <h4>Email</h4>
+                                <a href="mailto:agnivasardarwork@gmail.com">agnivasardarwork@gmail.com</a>
+                            </div>
+                            <div class="contact-method">
+                                <h4>Phone</h4>
+                                <a href="tel:+916290166815">+91 6290166815</a>
+                            </div>
+                            <div class="contact-method">
+                                <h4>LinkedIn</h4>
+                                <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank">linkedin.com/in/agniva-sardar-13b05817b</a>
+                            </div>
+                            <div class="contact-method">
+                                <h4>GitHub</h4>
+                                <a href="https://github.com/AgnivaSardar" target="_blank">github.com/AgnivaSardar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number (Optional)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="linkedin" name="linkedin" placeholder="LinkedIn Profile (Optional)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="github" name="github" placeholder="GitHub Profile (Optional)">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <div id="formStatus" class="form-status"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-left">
+                    <div class="logo">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" fill="white"/>
+                        </svg>
+                    </div>
+                    <p>&copy; By Agniva Sardar</p>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank" class="social-link">💼</a>
+                        <a href="https://github.com/AgnivaSardar" target="_blank" class="social-link">💻</a>
+                        <a href="mailto:agnivasardarwork@gmail.com" class="social-link">📧</a>
+                        <a href="https://leetcode.com/u/AGNIVA_9/" target="_blank" class="social-link">🔗</a>
+                    </div>
+                </div>
+                <nav class="footer-nav">
+                    <a href="#home">Home</a>
+                    <a href="#about">Work</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
