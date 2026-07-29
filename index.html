@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#f8fafc] text-[#000000] antialiased selection:bg-blue-600 selection:text-white">
+<body class="bg-[#f8fafc] text-[#000000] antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden w-full">
     
     <!-- Custom High-Contrast Cursor Bubble Follower -->
     <div id="cursorBubble" class="cursor-bubble">
@@ -17,7 +17,7 @@
     </div>
 
     <!-- Floating Sticky Security Lock Widget (High Contrast Pop Out) -->
-    <div id="floatingLockWidget" class="flex items-center gap-2.5 font-mono-code text-xs text-blue-700 cursor-pointer" data-cursor-text="UNLOCK">
+    <div id="floatingLockWidget" class="flex items-center gap-2 font-mono-code text-xs text-blue-700 cursor-pointer" data-cursor-text="UNLOCK">
         <span id="floatingLockIcon" class="text-base">🔒</span>
         <span id="floatingLockLabel" class="font-black">Node 1/4 Verified (Core)</span>
     </div>
@@ -48,7 +48,7 @@
     </div>
 
     <!-- MAIN PORTFOLIO CONTENT -->
-    <div id="mainPortfolio" class="relative z-10 hidden">
+    <div id="mainPortfolio" class="relative z-10 hidden overflow-x-hidden w-full">
 
         <!-- PAUL KALKBRENNER STYLE FIXED TOP NAVBAR (CORRECT TAB SEQUENCE) -->
         <header class="nav-wrap">
@@ -84,10 +84,10 @@
         </header>
 
         <!-- MAIN SECTION FLOW -->
-        <main class="pt-16">
+        <main class="pt-16 overflow-x-hidden w-full">
 
             <!-- SECTION 1: HERO SECTION (LIGHT BLUE THEME) -->
-            <section id="home" data-section-theme="hero" class="min-h-[92vh] flex flex-col justify-between px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-8 border-b-2 border-black">
+            <section id="home" data-section-theme="hero" class="min-h-[92vh] flex flex-col justify-between px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl w-full mx-auto my-auto space-y-8 sm:space-y-12">
                     
                     <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
@@ -173,7 +173,7 @@
             </section>
 
             <!-- SECTION 2: EXPERIENCE THE PULSE GRID (LIGHT INDIGO THEME) -->
-            <section id="pulse" data-section-theme="pulse" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="pulse" data-section-theme="pulse" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-12">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -230,7 +230,7 @@
             </section>
 
             <!-- SECTION 4: ABOUT & OBJECTIVE (LIGHT MINT GREEN THEME + WHITE CARDS) -->
-            <section id="about" data-section-theme="about" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="about" data-section-theme="about" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-10">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -243,7 +243,7 @@
 
                     <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
                         
-                        <div class="lg:col-span-7 contrast-card p-6 sm:p-8 space-y-6">
+                        <div class="lg:col-span-7 contrast-card p-4 sm:p-8 space-y-6">
                             <h2 class="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight font-heading">
                                 Career Objective
                             </h2>
@@ -273,7 +273,7 @@
 
                         <!-- Coursework & CS Prerequisites -->
                         <div class="lg:col-span-5 space-y-6">
-                            <div class="contrast-card p-6 sm:p-8 space-y-6">
+                            <div class="contrast-card p-4 sm:p-8 space-y-6">
                                 <h3 class="text-xl font-black text-slate-950 uppercase font-heading border-b-2 border-black pb-3">
                                     Completed Coursework
                                 </h3>
@@ -293,7 +293,7 @@
             </section>
 
             <!-- SECTION 5: TECHNICAL SKILLS MATRIX (LIGHT SKY THEME + WHITE CARDS) -->
-            <section id="skills" data-section-theme="skills" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="skills" data-section-theme="skills" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-12">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -306,7 +306,7 @@
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono-code">
                         
-                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                        <div class="contrast-card p-4 sm:p-6 space-y-4" data-cursor-text="SKILL">
                             <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                 <h3 class="font-black text-slate-950 text-sm">Programming & CS</h3>
                                 <span class="text-[11px] text-blue-700 font-black">CORE</span>
@@ -323,7 +323,7 @@
                             </div>
                         </div>
 
-                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                        <div class="contrast-card p-4 sm:p-6 space-y-4" data-cursor-text="SKILL">
                             <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                 <h3 class="font-black text-slate-950 text-sm">Backend & Frameworks</h3>
                                 <span class="text-[11px] text-blue-700 font-black">SYSTEMS</span>
@@ -342,7 +342,7 @@
                             </div>
                         </div>
 
-                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                        <div class="contrast-card p-4 sm:p-6 space-y-4" data-cursor-text="SKILL">
                             <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                 <h3 class="font-black text-slate-950 text-sm">DevOps & Cloud</h3>
                                 <span class="text-[11px] text-blue-700 font-black">CLOUD</span>
@@ -357,7 +357,7 @@
                             </div>
                         </div>
 
-                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                        <div class="contrast-card p-4 sm:p-6 space-y-4" data-cursor-text="SKILL">
                             <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                 <h3 class="font-black text-slate-950 text-sm">Security & Auth</h3>
                                 <span class="text-[11px] text-blue-700 font-black">SEC</span>
@@ -370,7 +370,7 @@
                             </div>
                         </div>
 
-                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                        <div class="contrast-card p-4 sm:p-6 space-y-4" data-cursor-text="SKILL">
                             <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                 <h3 class="font-black text-slate-950 text-sm">Networking & Systems</h3>
                                 <span class="text-[11px] text-blue-700 font-black">INFRA</span>
@@ -383,7 +383,7 @@
                             </div>
                         </div>
 
-                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                        <div class="contrast-card p-4 sm:p-6 space-y-4" data-cursor-text="SKILL">
                             <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                 <h3 class="font-black text-slate-950 text-sm">Web & Soft Skills</h3>
                                 <span class="text-[11px] text-blue-700 font-black">TEAM</span>
@@ -402,7 +402,7 @@
             </section>
 
             <!-- SECTION 6: FEATURED PROJECTS SHOWCASE (REAL PROJECT UI SCREENSHOT PREVIEWS) -->
-            <section id="projects" data-section-theme="gray" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="projects" data-section-theme="gray" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-12">
                     
                     <div class="flex flex-wrap items-center justify-between border-b-2 border-black pb-4 gap-4">
@@ -548,7 +548,7 @@
             </section>
 
             <!-- SECTION 7: WORK EXPERIENCE TABLE (PAUL KALKBRENNER NEON GREEN THEME + ACCORDION DRAWERS) -->
-            <section id="experience" data-section-theme="green" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="experience" data-section-theme="green" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-12">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -742,7 +742,7 @@
             </section>
 
             <!-- SECTION 8: CLI TERMINAL & DEVELOPER TOOLS (LIGHT LAVENDER THEME + WHITE CARDS) -->
-            <section id="cli" data-section-theme="cli" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="cli" data-section-theme="cli" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-10">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -753,54 +753,54 @@
                         <span class="text-xs font-mono-code text-slate-900 font-black">INTERACTIVE</span>
                     </div>
 
-                    <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+                    <div class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
                         
                         <!-- Interactive Terminal (7 cols) -->
-                        <div class="lg:col-span-7 contrast-card p-4 sm:p-6 space-y-4 flex flex-col justify-between" data-cursor-text="TERMINAL">
+                        <div class="lg:col-span-7 contrast-card p-4 sm:p-6 space-y-4 flex flex-col justify-between overflow-hidden" data-cursor-text="TERMINAL">
                             <div class="space-y-3">
-                                <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <div class="flex flex-wrap items-center justify-between border-b-2 border-black pb-3 gap-2">
                                     <div class="flex items-center gap-2">
                                         <div class="w-3 h-3 rounded-full bg-rose-500 border border-black"></div>
                                         <div class="w-3 h-3 rounded-full bg-yellow-500 border border-black"></div>
                                         <div class="w-3 h-3 rounded-full bg-emerald-500 border border-black"></div>
-                                        <span class="text-xs font-mono-code font-bold text-slate-950 pl-2">agniva@vit-chennai:~ (bash)</span>
+                                        <span class="text-xs font-mono-code font-bold text-slate-950 pl-1">agniva@vit-chennai:~</span>
                                     </div>
                                     <span class="text-[11px] text-blue-700 font-mono-code font-black">CLI Shell v2.0</span>
                                 </div>
 
                                 <div id="terminalBody" class="h-48 overflow-y-auto pr-2 space-y-2 text-xs font-mono-code leading-relaxed text-slate-950">
                                     <div class="text-slate-800 font-bold">Type <span class="text-blue-700 font-black">'help'</span> or click a command below to explore system details.</div>
-                                    <div class="text-slate-400">------------------------------------------------</div>
+                                    <div class="border-b border-dashed border-slate-400 my-2"></div>
                                     <div class="text-blue-700 font-black">System Ready. Operating at 9.30 CGPA.</div>
                                 </div>
                             </div>
 
                             <div class="space-y-3 pt-2 border-t-2 border-black">
-                                <form id="terminalForm" class="flex items-center gap-2 bg-slate-100 px-3.5 py-2.5 rounded-xl border-2 border-black">
-                                    <span class="text-blue-700 text-xs font-mono-code font-black">$&nbsp;</span>
-                                    <input type="text" id="terminalInput" placeholder="type 'help', 'projects', 'skills'..." autocomplete="off" class="w-full bg-transparent text-xs font-mono-code font-bold text-slate-950 focus:outline-none placeholder-slate-500">
+                                <form id="terminalForm" class="flex items-center gap-2 bg-slate-100 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border-2 border-black max-w-full overflow-hidden">
+                                    <span class="text-blue-700 text-xs font-mono-code font-black flex-shrink-0">$&nbsp;</span>
+                                    <input type="text" id="terminalInput" placeholder="type 'help', 'projects'..." autocomplete="off" class="w-full bg-transparent text-xs font-mono-code font-bold text-slate-950 focus:outline-none placeholder-slate-500 truncate">
                                 </form>
 
                                 <div class="flex flex-wrap gap-1.5 text-[11px] font-mono-code">
-                                    <button data-cmd="help" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ help ]</button>
-                                    <button data-cmd="bio" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ bio ]</button>
-                                    <button data-cmd="skills" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ skills ]</button>
-                                    <button data-cmd="projects" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ projects ]</button>
-                                    <button data-cmd="exp" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ exp ]</button>
+                                    <button data-cmd="help" class="cmd-chip px-2.5 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ help ]</button>
+                                    <button data-cmd="bio" class="cmd-chip px-2.5 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ bio ]</button>
+                                    <button data-cmd="skills" class="cmd-chip px-2.5 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ skills ]</button>
+                                    <button data-cmd="projects" class="cmd-chip px-2.5 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ projects ]</button>
+                                    <button data-cmd="exp" class="cmd-chip px-2.5 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ exp ]</button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- 1-Click Clipboard & GitHub Pulse (5 cols) -->
-                        <div class="lg:col-span-5 contrast-card p-4 sm:p-6 space-y-6 flex flex-col justify-between">
+                        <div class="lg:col-span-5 contrast-card p-4 sm:p-6 space-y-6 flex flex-col justify-between overflow-hidden">
                             <div class="space-y-3">
                                 <div class="flex items-center justify-between border-b-2 border-black pb-3">
                                     <span class="text-xs font-black text-slate-950 font-heading uppercase">Clipboard SSH Action</span>
                                     <span class="text-[11px] text-blue-700 font-mono-code font-black">1-Click Copy</span>
                                 </div>
                                 <p class="text-xs text-slate-900 font-bold">Copy developer email to clipboard with one click:</p>
-                                <button data-copy="agnivasardarwork@gmail.com" class="w-full py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-left rounded-xl border-2 border-black text-xs font-mono-code font-bold text-slate-950 transition-all flex items-center justify-between shadow-[3px_3px_0px_#000]" data-cursor-text="COPY">
-                                    <span class="truncate mr-2">git clone agnivasardarwork@gmail.com</span>
+                                <button data-copy="agnivasardarwork@gmail.com" class="w-full py-3 px-3 sm:py-3.5 sm:px-4 bg-slate-100 hover:bg-slate-200 text-left rounded-xl border-2 border-black text-xs font-mono-code font-bold text-slate-950 transition-all flex items-center justify-between shadow-[3px_3px_0px_#000] overflow-hidden" data-cursor-text="COPY">
+                                    <span class="truncate mr-2 text-[11px] sm:text-xs">git clone agnivasardarwork@gmail.com</span>
                                     <svg class="w-4 h-4 text-blue-700 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                                 </button>
                             </div>
@@ -833,7 +833,7 @@
             </section>
 
             <!-- SECTION 9: EDUCATION & HONORS (PAUL KALKBRENNER YELLOW THEME + WHITE CARDS) -->
-            <section id="awards" data-section-theme="yellow" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="awards" data-section-theme="yellow" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-12">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -847,7 +847,7 @@
                     <div class="grid lg:grid-cols-2 gap-8 items-stretch font-sans">
                         
                         <!-- VIT Chennai (WHITE HIGH-CONTRAST CARD) -->
-                        <div class="contrast-card p-6 sm:p-8 space-y-6 flex flex-col justify-between" data-cursor-text="VIT">
+                        <div class="contrast-card p-4 sm:p-8 space-y-6 flex flex-col justify-between" data-cursor-text="VIT">
                             <div class="space-y-4">
                                 <div class="flex items-center justify-between border-b-2 border-black pb-4">
                                     <h3 class="text-xl sm:text-2xl font-black font-heading uppercase text-black">VIT Chennai</h3>
@@ -867,7 +867,7 @@
                         </div>
 
                         <!-- Leadership & Awards (WHITE HIGH-CONTRAST CARD) -->
-                        <div class="contrast-card p-6 sm:p-8 space-y-6 flex flex-col justify-between" data-cursor-text="AWARDS">
+                        <div class="contrast-card p-4 sm:p-8 space-y-6 flex flex-col justify-between" data-cursor-text="AWARDS">
                             <div class="space-y-4 border-b-2 border-black pb-4">
                                 <h3 class="text-xl sm:text-2xl font-black font-heading uppercase text-black">Honors & Distinctions</h3>
                                 <p class="text-xs text-blue-700 font-mono-code font-bold">National Hackathons & Fellowships</p>
@@ -891,7 +891,7 @@
             </section>
 
             <!-- SECTION 10: TESTIMONIALS CAROUSEL (LIGHT PINK THEME + WHITE CARDS) -->
-            <section id="testimonials" data-section-theme="pink" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+            <section id="testimonials" data-section-theme="pink" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black overflow-x-hidden">
                 <div class="max-w-5xl mx-auto space-y-10">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -909,7 +909,7 @@
 
                         <div class="testimonials-track relative min-h-[220px] flex items-center justify-center">
                             
-                            <div class="testimonial-card active absolute w-full transition-all duration-500 contrast-card p-6 sm:p-8 space-y-4">
+                            <div class="testimonial-card active absolute w-full transition-all duration-500 contrast-card p-4 sm:p-8 space-y-4">
                                 <div class="flex items-center gap-3">
                                     <svg class="w-7 h-7 sm:w-8 sm:h-8 text-blue-700/60" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                                     <p class="text-xs sm:text-base text-slate-950 font-medium italic leading-relaxed font-sans">
@@ -925,7 +925,7 @@
                                 </div>
                             </div>
 
-                            <div class="testimonial-card opacity-0 pointer-events-none scale-95 absolute w-full transition-all duration-500 contrast-card p-6 sm:p-8 space-y-4">
+                            <div class="testimonial-card opacity-0 pointer-events-none scale-95 absolute w-full transition-all duration-500 contrast-card p-4 sm:p-8 space-y-4">
                                 <div class="flex items-center gap-3">
                                     <svg class="w-7 h-7 sm:w-8 sm:h-8 text-blue-700/60" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                                     <p class="text-xs sm:text-base text-slate-950 font-medium italic leading-relaxed font-sans">
@@ -953,7 +953,7 @@
             </section>
 
             <!-- SECTION 11: CONTACT & NEWSLETTER (PAUL KALKBRENNER ORANGE THEME + WHITE CARDS) -->
-            <section id="contact" data-section-theme="orange" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+            <section id="contact" data-section-theme="orange" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
                 <div class="max-w-7xl mx-auto space-y-12">
                     
                     <div class="flex items-center justify-between border-b-2 border-black pb-4">
@@ -967,7 +967,7 @@
                     <div class="grid lg:grid-cols-12 gap-8 items-start">
                         
                         <!-- Contact Info (WHITE HIGH-CONTRAST CARD) -->
-                        <div class="lg:col-span-5 contrast-card p-6 sm:p-8 space-y-6" data-cursor-text="INFO">
+                        <div class="lg:col-span-5 contrast-card p-4 sm:p-8 space-y-6" data-cursor-text="INFO">
                             <h3 class="text-xl font-black font-heading uppercase border-b-2 border-black pb-3 text-black">Contact Info</h3>
                             
                             <div class="space-y-4 text-xs font-mono-code font-bold">
@@ -995,7 +995,7 @@
                         </div>
 
                         <!-- Send a Message Form (WHITE HIGH-CONTRAST CARD) -->
-                        <div class="lg:col-span-7 contrast-card p-6 sm:p-8 space-y-4">
+                        <div class="lg:col-span-7 contrast-card p-4 sm:p-8 space-y-4">
                             <h3 class="text-xl font-black font-heading uppercase border-b-2 border-black pb-3 text-black">Send a Message</h3>
                             
                             <form id="contactForm" class="space-y-4 font-sans text-xs">
@@ -1026,7 +1026,7 @@
         </main>
 
         <!-- FOOTER WITH METRICS & STATUS -->
-        <footer class="border-t-2 border-black bg-[#f8fafc] py-10">
+        <footer class="border-t-2 border-black bg-[#f8fafc] py-10 overflow-x-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-blue-700 text-white flex items-center justify-center text-xs font-black font-heading shadow-md border-2 border-black">AS</div>

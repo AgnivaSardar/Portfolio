@@ -19,6 +19,7 @@
 html {
     scroll-behavior: smooth;
     text-size-adjust: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -28,6 +29,7 @@ body {
     overflow-x: hidden;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -38,6 +40,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .font-mono-code {
     font-family: var(--font-mono);
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 /* Custom High Contrast Scrollbar */
@@ -173,6 +177,8 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 1.5rem;
     box-shadow: 6px 6px 0px #000000 !important;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .contrast-card:hover {
@@ -455,19 +461,27 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ==================== MOBILE DEVICES RESPONSIVE ENHANCEMENTS (< 768px) ==================== */
 @media (max-width: 768px) {
+    section {
+        overflow-x: hidden !important;
+        width: 100% !important;
+    }
+
     .h-d {
         font-size: clamp(2.2rem, 9.5vw, 4.5rem);
     }
 
     .hero-photo-container {
-        max-width: 320px;
-        height: 320px;
+        max-width: 300px;
+        height: 300px;
         border-radius: 1.5rem;
     }
 
     .contrast-card {
-        padding: 1.25rem !important;
+        padding: 1rem !important;
         box-shadow: 4px 4px 0px #000000 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
     }
 
     .tour-dates__item .grid {
@@ -495,10 +509,11 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     #floatingLockWidget {
-        bottom: 1rem;
-        right: 1rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.7rem;
+        bottom: 0.75rem;
+        right: 0.75rem;
+        padding: 0.4rem 0.85rem;
+        font-size: 0.65rem;
+        box-shadow: 3px 3px 0px #000000;
     }
 
     .cursor-bubble {
