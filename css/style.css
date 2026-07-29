@@ -122,6 +122,7 @@ h1, h2, h3, h4, h5, h6 {
     gap: 0.25rem;
     overflow-x: auto;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
 }
 .top-nav-links::-webkit-scrollbar {
     display: none;
@@ -129,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* GIANT DISPLAY HEADINGS (PURE BLACK) */
 .h-d {
-    font-size: clamp(3rem, 8.5vw, 9.5rem);
+    font-size: clamp(2.5rem, 8.5vw, 9.5rem);
     font-weight: 900;
     line-height: 0.85;
     letter-spacing: -0.05em;
@@ -450,4 +451,57 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--color--blue);
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0px #000000;
+}
+
+/* ==================== MOBILE DEVICES RESPONSIVE ENHANCEMENTS (< 768px) ==================== */
+@media (max-width: 768px) {
+    .h-d {
+        font-size: clamp(2.2rem, 9.5vw, 4.5rem);
+    }
+
+    .hero-photo-container {
+        max-width: 320px;
+        height: 320px;
+        border-radius: 1.5rem;
+    }
+
+    .contrast-card {
+        padding: 1.25rem !important;
+        box-shadow: 4px 4px 0px #000000 !important;
+    }
+
+    .tour-dates__item .grid {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .tour-dates__item .grid > div {
+        width: 100%;
+        text-align: left !important;
+    }
+
+    .tour-dates__container .grid-cols-12.border-b-4 {
+        display: none; /* Hide multi-column table header on mobile */
+    }
+
+    .exp-content__row {
+        padding: 1.25rem 0;
+    }
+
+    .exp-content__dot {
+        margin-right: 1rem;
+    }
+
+    #floatingLockWidget {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.7rem;
+    }
+
+    .cursor-bubble {
+        display: none !important; /* Hide custom mouse follower on touch screens */
+    }
 }
