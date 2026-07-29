@@ -3,515 +3,1055 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGNIVA - 3D Portfolio</title>
+    <title>Agniva Sardar – Official Portfolio & Distributed Systems Engineer</title>
+    <meta name="description" content="Official portfolio of Agniva Sardar - Computer Science Undergraduate ('28) at VIT Chennai. Backend Development Engineer Intern specializing in scalable, low-latency, and secure distributed systems.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <!-- Interactive Background -->
-    <div class="interactive-bg">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-        <div class="blob blob-4"></div>
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-        <canvas id="interactiveCanvas"></canvas>
+<body class="bg-[#f8fafc] text-[#000000] antialiased selection:bg-blue-600 selection:text-white">
+    
+    <!-- Custom High-Contrast Cursor Bubble Follower -->
+    <div id="cursorBubble" class="cursor-bubble">
+        <span id="cursorText">VIEW</span>
     </div>
 
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="loading-screen">
-        <div class="loading-container">
-            <canvas id="loadingCanvas"></canvas>
-            <div class="loading-text">
-                <h2>POWERING UP</h2>
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
-                <p class="loading-status">Initializing systems...</p>
+    <!-- Floating Sticky Security Lock Widget (High Contrast Pop Out) -->
+    <div id="floatingLockWidget" class="flex items-center gap-2.5 font-mono-code text-xs text-blue-700 cursor-pointer" data-cursor-text="UNLOCK">
+        <span id="floatingLockIcon" class="text-base">🔒</span>
+        <span id="floatingLockLabel" class="font-black">Node 1/4 Verified (Core)</span>
+    </div>
+
+    <!-- Loading Screen (Boot Sequence Animation) -->
+    <div id="loadingScreen" class="fixed inset-0 bg-[#f8fafc] flex items-center justify-center z-[100] transition-opacity duration-500">
+        <div class="text-center px-4">
+            <canvas id="loadingCanvas" class="w-36 h-36 mx-auto mb-6 block"></canvas>
+            <h2 class="text-2xl font-extrabold text-blue-700 mb-4 tracking-widest uppercase font-mono">POWERING UP</h2>
+            <div class="w-64 h-2 bg-slate-200 rounded-full overflow-hidden mx-auto mb-4 border-2 border-black">
+                <div id="loadingProgress" class="h-full bg-gradient-to-r from-blue-700 to-sky-500 w-0 transition-all duration-300"></div>
             </div>
+            <p class="text-slate-900 text-xs tracking-wide font-black font-mono-code">Initializing distributed systems...</p>
         </div>
     </div>
 
     <!-- Welcome Screen -->
-    <div id="welcomeScreen" class="welcome-screen hidden">
-        <div class="welcome-container">
-            <h1 class="welcome-title">LET'S CREATE</h1>
-            <div class="welcome-loader">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+    <div id="welcomeScreen" class="fixed inset-0 bg-[#f8fafc] flex items-center justify-center z-[90] hidden transition-opacity duration-500">
+        <div class="text-center px-4">
+            <h1 class="text-4xl sm:text-6xl font-black text-slate-950 mb-8 tracking-widest font-heading uppercase">LET'S CREATE</h1>
+            <div class="flex gap-3 justify-center mb-6">
+                <div class="w-4 h-4 bg-blue-700 rounded-full animate-bounce"></div>
+                <div class="w-4 h-4 bg-blue-700 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                <div class="w-4 h-4 bg-blue-700 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
             </div>
-            <p class="welcome-text">Preparing something amazing...</p>
+            <p class="text-slate-900 text-sm sm:text-base font-black font-mono-code">Preparing something amazing...</p>
         </div>
     </div>
 
-    <!-- Main Portfolio -->
-    <div id="mainPortfolio" class="main-portfolio hidden">
-        <!-- Navigation -->
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="logo">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" fill="currentColor"/>
-                    </svg>
-                </div>
-                <ul class="nav-menu">
-                    <li class="nav-item"><a href="#home" class="nav-link">HOME</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">ABOUT</a></li>
-                    <li class="nav-item"><a href="#projects" class="nav-link">PROJECTS</a></li>
-                    <li class="nav-item"><a href="#education" class="nav-link">EDUCATION</a></li>
-                    <li class="nav-item"><a href="#experience" class="nav-link">EXPERIENCE</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">CONTACT</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </nav>
+    <!-- MAIN PORTFOLIO CONTENT -->
+    <div id="mainPortfolio" class="relative z-10 hidden">
 
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="geometric-accent"></div>
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        Agniva<br/>
-                        <span class="highlight">Sardar</span><br/>
-                    </h1>
-                    <p class="hero-subtitle">Software Engineering Intern | Core Developer | B.Tech CS '28</p>
-                    <p class="hero-description">Building scalable, secure backend systems and full-stack applications. Interested in distributed systems, low-latency services, and owning features end-to-end across design, development, testing, and deployment.</p>
-                    <div class="cta-buttons">
-                        <button class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">View Work</button>
-                        <button class="btn btn-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Let's Talk</button>
-                    </div>
-                </div>
-                <div class="hero-image-container">
-                    <div class="hero-image-wrapper">
-                        <div class="hero-name-display">
-                            <span class="initial">A</span>
-                            <span class="initial">S</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="section-title">About Me</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>Computer Science undergraduate (Class of 2028) at Vellore Institute of Technology, Chennai with a strong foundation in data structures, algorithms, and system design. Currently working as a Software Engineering Intern at Auracle Labs, building scalable backend services for an AI-driven edtech platform.</p>
-                        <p>Passionate about building low-latency, secure backend systems and owning features end-to-end. Experience spans full-stack development, database optimization, security implementation, and deploying production-grade services. Motivated to contribute to customer-centric, distributed systems at scale.</p>
-                        <div class="skills">
-                            <h3>Technical Skills</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Java</span>
-                                <span class="skill-tag">C/C++</span>
-                                <span class="skill-tag">Python</span>
-                                <span class="skill-tag">TypeScript</span>
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Node.js</span>
-                                <span class="skill-tag">Express.js</span>
-                                <span class="skill-tag">PostgreSQL</span>
-                                <span class="skill-tag">Redis</span>
-                                <span class="skill-tag">Docker</span>
-                                <span class="skill-tag">AWS</span>
-                                <span class="skill-tag">JWT Auth</span>
-                                <span class="skill-tag">REST APIs</span>
-                                <span class="skill-tag">WebSocket</span>
-                                <span class="skill-tag">PyTorch</span>
-                                <span class="skill-tag">YOLO</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about-image">
-                        <div class="image-placeholder">
-                            <div class="tech-animation">
-                                <div class="orbit orbit-1"></div>
-                                <div class="orbit orbit-2"></div>
-                                <div class="orbit orbit-3"></div>
-                                <div class="center-dot"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="projects">
-            <div class="container">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">VIT-VERSE</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>VIT-Verse – Online Streaming Platform</h3>
-                            <p>Full-stack streaming platform for VIT with live/recorded lectures, course playlists, role-based access. Reduced latency to ~50-200ms for channels and ~300-800ms for video queries using indexed SQL and Redis caching.</p>
-                            <div class="project-tech">
-                                <span>Node.js</span>
-                                <span>TypeScript</span>
-                                <span>PostgreSQL</span>
-                                <span>Redis</span>
-                                <span>Socket.io</span>
-                            </div>
-                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">StateVault</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>StateVault Prober – Web Vulnerability Scanner</h3>
-                            <p>Continual-learning security scanner modeling app state as graphs to detect logical flaws and access-control issues. Uses River online ML and PyTorch autoencoder for anomaly detection with React+Cytoscape.js visualization.</p>
-                            <div class="project-tech">
-                                <span>Python</span>
-                                <span>FastAPI</span>
-                                <span>Playwright</span>
-                                <span>PyTorch</span>
-                                <span>NetworkX</span>
-                            </div>
-                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">MoveSphere</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>MoveSphere – Logistics Management</h3>
-                            <p>Port and hangar inventory management web app with CRUD workflows, JWT authentication, RBAC, and email notifications. Applies layered architecture, REST API versioning, and distributed-systems design principles.</p>
-                            <div class="project-tech">
-                                <span>React</span>
-                                <span>Express.js</span>
-                                <span>PostgreSQL</span>
-                                <span>JWT</span>
-                            </div>
-                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">ScreenGuard</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>ScreenGuardian – Content Moderation Tool</h3>
-                            <p>Real-time computer vision pipeline detecting and selectively blurring explicit/violent content on desktop screens. Focuses on inference optimization, dataset management, and system integration using YOLOv8s and YOLOv8n.</p>
-                            <div class="project-tech">
-                                <span>Python</span>
-                                <span>YOLO</span>
-                                <span>Computer Vision</span>
-                                <span>PyTorch</span>
-                            </div>
-                            <a href="https://github.com/AgnivaSardar" class="project-link" target="_blank">View on GitHub →</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Activity Section -->
-        <section id="activity" class="activity">
-            <div class="container">
-                <h2 class="section-title">Live Activity</h2>
-                <div class="activity-grid">
-                    <div class="activity-card github-card">
-                        <div class="activity-header">
-                            <h3>GitHub</h3>
-                            <a href="https://github.com/AgnivaSardar" target="_blank">@AgnivaSardar</a>
-                        </div>
-                        <div class="activity-stats">
-                            <div class="stat"><span id="ghRepos">--</span><label>Repos</label></div>
-                            <div class="stat"><span id="ghFollowers">--</span><label>Followers</label></div>
-                            <div class="stat"><span id="ghRecentCommits">--</span><label>Commits (30d)</label></div>
-                        </div>
-                    </div>
-
-                    <div class="activity-card leetcode-card">
-                        <div class="activity-header">
-                            <h3>LeetCode</h3>
-                            <a href="https://leetcode.com/u/AgnivaSardar/" target="_blank">AgnivaSardar</a>
-                        </div>
-                        <div class="leetcode-embed">
-                            <img src="https://leetcard.jacoblin.cool/AgnivaSardar?theme=dark&ext=activity" alt="LeetCode Stats" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education Section -->
-        <section id="education" class="education">
-            <div class="container">
-                <h2 class="section-title">Education</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">Jul 2024 – May 2028</div>
-                        <div class="timeline-content">
-                            <h3>B.Tech in Computer Science Engineering (Cyber Physical Systems)</h3>
-                            <p class="timeline-school">Vellore Institute of Technology, Chennai</p>
-                            <p class="timeline-description">CGPA: 9.35 / 10. Relevant coursework: Data Structures and Algorithms, Operating Systems, Database Management Systems, Computer Architecture and Organization, Web Programming (React, Express, Node.js).</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">2024</div>
-                        <div class="timeline-content">
-                            <h3>Smart India Hackathon 2024 & 2025</h3>
-                            <p class="timeline-school">Final Offline Intra-College Round</p>
-                            <p class="timeline-description">Ranked in the top 50 of ~800 campus teams by collaborating with a cross-functional student team to solve open-ended engineering problems under time pressure.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">2024</div>
-                        <div class="timeline-content">
-                            <h3>Lifology Global Fellow – Golden Award</h3>
-                            <p class="timeline-school">National Recognition</p>
-                            <p class="timeline-description">Ranked 2nd among 10,000 students nationwide for demonstrated leadership, communication skills, and strong academic performance.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="experience">
-            <div class="container">
-                <h2 class="section-title">Work Experience</h2>
-                <div class="experience-timeline">
-                    <div class="experience-item">
-                        <div class="experience-date">Sep 2025 – Present</div>
-                        <div class="experience-content">
-                            <h3>Software Engineering Intern, Core Software Developer</h3>
-                            <p class="experience-company">Auracle Labs (Remote)</p>
-                            <p class="experience-description">Designed and implemented end-to-end backend services for an AI-driven edtech platform using TypeScript, Node.js, Express.js, PostgreSQL and Prisma. Improved login performance to ~165ms and analytics endpoints to ~15–40ms by implementing Redis caching plus pagination and indexing. Secured services using bcrypt, HTTPS, CORS, and Zod-based input validation.</p>
-                            <div class="experience-highlights">
-                                <span>TypeScript</span>
-                                <span>PostgreSQL</span>
-                                <span>Redis</span>
-                                <span>Docker</span>
-                                <span>JWT Auth</span>
-                                <span>AWS Lambda</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="experience-item">
-                        <div class="experience-date">Aug 2025 – Present</div>
-                        <div class="experience-content">
-                            <h3>Technical Developer</h3>
-                            <p class="experience-company">Mathematics Club, VIT Chennai</p>
-                            <p class="experience-description">Created and deployed the official club web application using React (SPA), Flask APIs and PostgreSQL on Render and Supabase, serving 20+ registered members. Cut organizer admin time by roughly 50% by replacing spreadsheet-based tracking with a database-backed web application. Implemented secure authentication and authorization using JWT, RBAC and bcrypt.</p>
-                            <div class="experience-highlights">
-                                <span>React</span>
-                                <span>Flask</span>
-                                <span>PostgreSQL</span>
-                                <span>JWT</span>
-                                <span>RBAC</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="testimonials">
-            <div class="container">
-                <div class="testimonials-header">
-                    <span class="testimonials-icon">✨</span>
-                    <h2 class="section-title">REVIEWS & TESTIMONIALS</h2>
-                    <p class="testimonials-subtitle">What colleagues, seniors, and professors say about working with me</p>
-                </div>
+        <!-- PAUL KALKBRENNER STYLE FIXED TOP NAVBAR (HIGH CONTRAST) -->
+        <header class="nav-wrap">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
                 
-                <div class="testimonials-carousel">
-                    <button class="carousel-btn prev-btn" aria-label="Previous testimonial">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M15 18l-6-6 6-6"/>
-                        </svg>
-                    </button>
-                    
-                    <div class="testimonials-track">
-                        <div class="testimonial-card active">
-                            <div class="testimonial-content">
-                                <div class="quote-icon">"</div>
-                                <p class="testimonial-text">Agniva consistently delivers high-quality code and demonstrates exceptional problem-solving skills. His ability to optimize backend performance while maintaining code clarity is impressive. A valuable team member who takes ownership of his work.</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">RS</div>
-                                <div class="author-info">
-                                    <h4>Dr. Rajesh Sharma</h4>
-                                    <p>Senior Professor, Computer Science</p>
-                                    <span class="author-company">VIT Chennai</span>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Brand SVG Monogram Logo -->
+                <a href="#home" class="flex items-center gap-2.5 flex-shrink-0 group" data-cursor-text="HOME">
+                    <div class="w-9 h-9 rounded-xl bg-blue-700 text-white flex items-center justify-center font-black text-sm group-hover:bg-blue-800 transition-all font-heading shadow-md border-2 border-black">AS</div>
+                    <span class="font-extrabold text-slate-950 text-sm sm:text-base tracking-tight group-hover:text-blue-700 transition-colors font-heading whitespace-nowrap">Agniva Sardar</span>
+                </a>
 
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="quote-icon">"</div>
-                                <p class="testimonial-text">Working with Agniva has been a great experience. He brings fresh ideas to the table and isn't afraid to tackle complex challenges. His work on our authentication system was particularly noteworthy - clean, secure, and well-documented.</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">AP</div>
-                                <div class="author-info">
-                                    <h4>Arjun Patel</h4>
-                                    <p>Lead Developer</p>
-                                    <span class="author-company">Auracle Labs</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="quote-icon">"</div>
-                                <p class="testimonial-text">Agniva's contribution to our Mathematics Club web application exceeded expectations. He delivered a professional, scalable solution that transformed how we manage club activities. His technical expertise and communication skills made the collaboration seamless.</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">SM</div>
-                                <div class="author-info">
-                                    <h4>Sneha Mehta</h4>
-                                    <p>Club President</p>
-                                    <span class="author-company">Mathematics Club, VIT</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="quote-icon">"</div>
-                                <p class="testimonial-text">One of the most dedicated students I've had. Agniva shows genuine curiosity in understanding not just how things work, but why they work. His project on distributed systems demonstrated maturity beyond his years.</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">VK</div>
-                                <div class="author-info">
-                                    <h4>Prof. Vikram Kumar</h4>
-                                    <p>Associate Professor</p>
-                                    <span class="author-company">Department of CSE, VIT Chennai</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="quote-icon">"</div>
-                                <p class="testimonial-text">Agniva is a quick learner who adapts well to new technologies. During our internship program, he improved our API response times significantly and mentored junior developers. His passion for clean code and best practices is evident in everything he does.</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">NK</div>
-                                <div class="author-info">
-                                    <h4>Neha Kapoor</h4>
-                                    <p>Engineering Manager</p>
-                                    <span class="author-company">Auracle Labs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="carousel-btn next-btn" aria-label="Next testimonial">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="carousel-indicators"></div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="section-title">Get In Touch</h2>
-                <div class="contact-wrapper">
-                    <div class="contact-info">
-                        <h3>Let's Connect</h3>
-                        <p>I'm always interested in hearing about new projects and opportunities. Feel free to reach out through any of these channels.</p>
-                        <div class="contact-methods">
-                            <div class="contact-method">
-                                <h4>Email</h4>
-                                <a href="mailto:agnivasardarwork@gmail.com">agnivasardarwork@gmail.com</a>
-                            </div>
-                            <div class="contact-method">
-                                <h4>Phone</h4>
-                                <a href="tel:+916290166815">+91 6290166815</a>
-                            </div>
-                            <div class="contact-method">
-                                <h4>LinkedIn</h4>
-                                <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank">linkedin.com/in/agniva-sardar-13b05817b</a>
-                            </div>
-                            <div class="contact-method">
-                                <h4>GitHub</h4>
-                                <a href="https://github.com/AgnivaSardar" target="_blank">github.com/AgnivaSardar</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" id="phone" name="phone" placeholder="Phone Number (Optional)">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="linkedin" name="linkedin" placeholder="LinkedIn Profile (Optional)">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="github" name="github" placeholder="GitHub Profile (Optional)">
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                        <div id="formStatus" class="form-status"></div>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-left">
-                    <div class="logo">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" fill="white"/>
-                        </svg>
-                    </div>
-                    <p>&copy; By Agniva Sardar</p>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank" class="social-link">💼</a>
-                        <a href="https://github.com/AgnivaSardar" target="_blank" class="social-link">💻</a>
-                        <a href="mailto:agnivasardarwork@gmail.com" class="social-link">📧</a>
-                        <a href="https://leetcode.com/u/AGNIVA_9/" target="_blank" class="social-link">🔗</a>
-                    </div>
-                </div>
-                <nav class="footer-nav">
-                    <a href="#home">Home</a>
-                    <a href="#about">Work</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#experience">Experience</a>
-                    <a href="#contact">Contact</a>
+                <!-- Horizontal Navigation Links (ALWAYS VISIBLE across desktop/laptops) -->
+                <nav class="top-nav-links">
+                    <a href="#home" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="HOME">Home</a>
+                    <a href="#about" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="ABOUT">About</a>
+                    <a href="#skills" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="SKILLS">Skills</a>
+                    <a href="#experience" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="EXPERIENCE">Experience</a>
+                    <a href="#projects" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="PROJECTS">Projects</a>
+                    <a href="#awards" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="EDUCATION">Education</a>
+                    <a href="#cli" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="CLI">CLI Terminal</a>
+                    <a href="#testimonials" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="REVIEWS">Testimonials</a>
+                    <a href="#contact" class="px-3 py-1.5 text-xs font-black text-slate-950 hover:text-blue-700 hover:bg-slate-200/90 rounded-lg transition-all whitespace-nowrap" data-cursor-text="CONTACT">Contact</a>
                 </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden lg:flex items-center gap-2 flex-shrink-0">
+                    <a href="#contact" class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white font-black text-xs rounded-xl transition-all shadow-md font-heading uppercase tracking-wider border-2 border-black" data-cursor-text="CONTACT">
+                        Contact Me
+                    </a>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- MAIN SECTION FLOW -->
+        <main class="pt-16">
+
+            <!-- SECTION 1: HERO SECTION (LIGHT BLUE THEME) -->
+            <section id="home" data-section-theme="hero" class="min-h-[92vh] flex flex-col justify-between px-4 sm:px-6 lg:px-8 pt-12 pb-8 border-b-2 border-black">
+                <div class="max-w-7xl w-full mx-auto my-auto space-y-12">
+                    
+                    <div class="grid lg:grid-cols-12 gap-10 items-center">
+                        
+                        <!-- Left Hero Column: Giant Display Typography & Role Info -->
+                        <div class="lg:col-span-7 space-y-6">
+                            <div class="space-y-2">
+                                <span class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest block">
+                                    Official Developer Portfolio
+                                </span>
+                                <h1 class="h-d leading-none font-black text-slate-950 uppercase">
+                                    AGNIVA<br><span class="text-blue-700">SARDAR</span>
+                                </h1>
+                            </div>
+
+                            <p class="text-lg sm:text-2xl text-slate-950 font-extrabold leading-tight font-heading">
+                                Backend Development Engineer Intern & CS Undergraduate ('28)
+                            </p>
+
+                            <p class="text-xs sm:text-sm text-slate-900 leading-relaxed font-mono-code font-bold max-w-xl">
+                                Vellore Institute of Technology, Chennai • CGPA: 9.30 / 10<br>
+                                Specializing in scalable, low-latency, and secure distributed systems, REST/WebSocket microservices, Redis caching, and RAG pipelines.
+                            </p>
+
+                            <!-- Social Icon Buttons -->
+                            <div class="flex items-center gap-3 pt-2">
+                                <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank" class="w-11 h-11 rounded-full bg-white border-2 border-black flex items-center justify-center text-slate-950 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all shadow-[4px_4px_0px_#000]" aria-label="LinkedIn" data-cursor-text="LINKEDIN">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.68 1.68 0 1 0 0 3.36 1.68 1.68 0 0 0 0-3.36Z"/></svg>
+                                </a>
+                                <a href="https://github.com/AgnivaSardar" target="_blank" class="w-11 h-11 rounded-full bg-white border-2 border-black flex items-center justify-center text-slate-950 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all shadow-[4px_4px_0px_#000]" aria-label="GitHub" data-cursor-text="GITHUB">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
+                                </a>
+                                <a href="mailto:agnivasardarwork@gmail.com" class="w-11 h-11 rounded-full bg-white border-2 border-black flex items-center justify-center text-slate-950 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all shadow-[4px_4px_0px_#000]" aria-label="Email" data-cursor-text="EMAIL">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                </a>
+                                <a href="tel:+916290166815" class="w-11 h-11 rounded-full bg-white border-2 border-black flex items-center justify-center text-slate-950 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-all shadow-[4px_4px_0px_#000]" aria-label="Phone" data-cursor-text="CALL">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right Hero Column: Large High-Impact Photo Card -->
+                        <div class="lg:col-span-5 flex justify-center">
+                            <div class="hero-photo-container" data-cursor-text="AGNIVA">
+                                <img src="assets/profile.jpg" alt="Agniva Sardar" class="hero-photo-img">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Equalizer Animation & Sound ON/OFF Toggle Bar -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-5 rounded-2xl border-2 border-black shadow-[6px_6px_0px_#000]">
+                        <div class="flex items-center gap-3">
+                            <div class="eq__wrap">
+                                <div class="eq__bar"></div>
+                                <div class="eq__bar"></div>
+                                <div class="eq__bar"></div>
+                                <div class="eq__bar"></div>
+                                <div class="eq__bar"></div>
+                                <div class="eq__bar"></div>
+                                <div class="eq__bar"></div>
+                            </div>
+                            <div>
+                                <span id="heroSoundFlash" class="text-xs font-mono-code font-black text-blue-700 block">Now playing: Distributed Systems Engine</span>
+                                <span class="text-[11px] text-slate-800 block font-mono-code font-bold">30-40% REST API Throughput Acceleration</span>
+                            </div>
+                        </div>
+
+                        <button id="soundToggleBtn" data-sound-active="true" class="sound-button__wrap flex-shrink-0" data-cursor-text="TOGGLE">
+                            <span id="soundBtnText">Sound ON</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Stretched Arrow UI Scroll Indicator -->
+                <div class="pt-8 pb-2 text-center">
+                    <a href="#pulse" class="scroll-arrow-link inline-flex flex-col items-center gap-2 group" data-cursor-text="SCROLL">
+                        <span class="text-[10px] font-mono-code font-black text-slate-900 group-hover:text-blue-700 tracking-widest uppercase transition-colors">SCROLL DOWN</span>
+                        <div class="stretched-scroll-arrow"></div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- SECTION 2: EXPERIENCE THE PULSE GRID (LIGHT INDIGO THEME) -->
+            <section id="pulse" data-section-theme="pulse" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square"></div>
+                            <h3 class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest">SYSTEM ARCHITECTURE & CAPACITY</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-slate-900 font-black">01 / 04 NODES</span>
+                    </div>
+
+                    <!-- Horizontal Grid Pulse Rows -->
+                    <div class="exp-wrap space-y-4">
+                        <div class="exp-content__row" data-cursor-text="PULSE">
+                            <span class="exp-lines__col-label text-blue-700 mr-6 font-black">01</span>
+                            <div class="exp-content__dot"></div>
+                            <h2 class="h-d text-2xl sm:text-5xl font-black text-slate-950">Experience</h2>
+                        </div>
+                        <div class="exp-content__row" data-cursor-text="PULSE">
+                            <span class="exp-lines__col-label text-blue-700 mr-6 font-black">02</span>
+                            <div class="exp-content__dot"></div>
+                            <h2 class="h-d text-2xl sm:text-5xl font-black text-blue-700">the Pulse</h2>
+                        </div>
+                        <div class="exp-content__row" data-cursor-text="PULSE">
+                            <span class="exp-lines__col-label text-blue-700 mr-6 font-black">03</span>
+                            <div class="exp-content__dot"></div>
+                            <h2 class="h-d text-2xl sm:text-5xl font-black text-slate-950">of Low Latency</h2>
+                        </div>
+                        <div class="exp-content__row" data-cursor-text="PULSE">
+                            <span class="exp-lines__col-label text-blue-700 mr-6 font-black">04</span>
+                            <div class="exp-content__dot"></div>
+                            <h2 class="h-d text-2xl sm:text-5xl font-black text-blue-700">Distributed Systems</h2>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 3: INFINITE DRAGGABLE TECH STACK MARQUEE -->
+            <section data-section-theme="hero" class="py-8 border-b-2 border-black overflow-hidden">
+                <div class="draggable-marquee">
+                    <div class="draggable-marquee__track font-mono-code">
+                        <span class="marquee-chip text-blue-700">⚡ NODE.JS & EXPRESS</span>
+                        <span class="marquee-chip text-slate-950">⚡ TYPESCRIPT & JAVASCRIPT</span>
+                        <span class="marquee-chip text-blue-700">⚡ POSTGRESQL & PRISMA</span>
+                        <span class="marquee-chip text-slate-950">⚡ REDIS CACHING</span>
+                        <span class="marquee-chip text-blue-700">⚡ DOCKER & AWS EC2</span>
+                        <span class="marquee-chip text-slate-950">⚡ PYTHON & FASTAPI</span>
+                        <span class="marquee-chip text-blue-700">⚡ REACT 18 & FLASK</span>
+                        <span class="marquee-chip text-slate-950">⚡ JWT & RBAC SECURITY</span>
+                        <span class="marquee-chip text-blue-700">⚡ NODE.JS & EXPRESS</span>
+                        <span class="marquee-chip text-slate-950">⚡ TYPESCRIPT & JAVASCRIPT</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: ABOUT & OBJECTIVE (LIGHT MINT GREEN THEME + WHITE CARDS) -->
+            <section id="about" data-section-theme="about" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-10">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square"></div>
+                            <h3 class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest">CAREER OBJECTIVE & PRE-REQUISITES</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-slate-900 font-black">PROFILE</span>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-10 items-start">
+                        
+                        <div class="lg:col-span-7 contrast-card p-8 space-y-6">
+                            <h2 class="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight font-heading">
+                                Career Objective
+                            </h2>
+                            <p class="text-sm sm:text-base text-slate-900 font-medium leading-relaxed font-sans">
+                                I am both a Computer Science undergraduate going for my Bachelor’s degree in Cyber Physical Systems (2028) and looking for a Backend Development Engineer Intern position. As my studies progress and I learn key foundational concepts related to software application and system design (I have completed prerequisite coursework in data structures, algorithms, object-oriented programming, back-end systems development). I have first-hand expertise developing scalable, low-latency and secure distributed systems while assuming full ownership of all key features during development to completion. I am open-minded about the role of being a Backend Development Intern, so long as the role allows me to continue developing my technology skills on key foundational concepts.
+                            </p>
+
+                            <div class="grid sm:grid-cols-2 gap-4 pt-4 border-t-2 border-black font-mono-code text-xs">
+                                <div class="p-4 rounded-xl bg-slate-100 border-2 border-black shadow-[3px_3px_0px_#000]">
+                                    <span class="text-blue-700 font-black block mb-1">Academic Standing</span>
+                                    <span class="text-slate-950 font-black text-lg">9.30 / 10 CGPA</span>
+                                </div>
+                                <div class="p-4 rounded-xl bg-slate-100 border-2 border-black shadow-[3px_3px_0px_#000]">
+                                    <span class="text-blue-700 font-black block mb-1">API Acceleration</span>
+                                    <span class="text-slate-950 font-black text-lg">30-40% Speedup</span>
+                                </div>
+                                <div class="p-4 rounded-xl bg-slate-100 border-2 border-black shadow-[3px_3px_0px_#000]">
+                                    <span class="text-blue-700 font-black block mb-1">Logon Speed</span>
+                                    <span class="text-slate-950 font-black text-lg">~165 ms Latency</span>
+                                </div>
+                                <div class="p-4 rounded-xl bg-slate-100 border-2 border-black shadow-[3px_3px_0px_#000]">
+                                    <span class="text-blue-700 font-black block mb-1">Concurrent Users</span>
+                                    <span class="text-slate-950 font-black text-lg">1,000+ Tested</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Coursework & CS Prerequisites -->
+                        <div class="lg:col-span-5 space-y-6">
+                            <div class="contrast-card p-8 space-y-6">
+                                <h3 class="text-xl font-black text-slate-950 uppercase font-heading border-b-2 border-black pb-3">
+                                    Completed Coursework
+                                </h3>
+                                <div class="flex flex-wrap gap-2.5 font-mono-code text-xs">
+                                    <span class="px-4 py-2 bg-[#000000] text-white border-2 border-black rounded-xl font-bold">Data Structures & Algorithms</span>
+                                    <span class="px-4 py-2 bg-[#000000] text-white border-2 border-black rounded-xl font-bold">Operating Systems</span>
+                                    <span class="px-4 py-2 bg-[#000000] text-white border-2 border-black rounded-xl font-bold">Database Management Systems</span>
+                                    <span class="px-4 py-2 bg-[#000000] text-white border-2 border-black rounded-xl font-bold">Computer Architecture & Org</span>
+                                    <span class="px-4 py-2 bg-[#000000] text-white border-2 border-black rounded-xl font-bold">Web Dev (React, Express, Node)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 5: TECHNICAL SKILLS MATRIX (LIGHT SKY THEME + WHITE CARDS) -->
+            <section id="skills" data-section-theme="skills" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square"></div>
+                            <h3 class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest">ENGINEERING MATRIX & TECH STACK</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-slate-900 font-black">02 / 04 NODES</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono-code">
+                        
+                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <h3 class="font-black text-slate-950 text-sm">Programming & CS</h3>
+                                <span class="text-[11px] text-blue-700 font-black">CORE</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Java</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">C</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">C++</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Python</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">JavaScript</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">TypeScript</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">OOPS</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">DSA</span>
+                            </div>
+                        </div>
+
+                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <h3 class="font-black text-slate-950 text-sm">Backend & Frameworks</h3>
+                                <span class="text-[11px] text-blue-700 font-black">SYSTEMS</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Node.js</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Express.js</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Flask</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">FastAPI</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">REST APIs</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">WebSockets</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">PostgreSQL</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">MySQL</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Redis</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Supabase</span>
+                            </div>
+                        </div>
+
+                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <h3 class="font-black text-slate-950 text-sm">DevOps & Cloud</h3>
+                                <span class="text-[11px] text-blue-700 font-black">CLOUD</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Git / GitHub</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Docker</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Docker Compose</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">CI/CD</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">AWS EC2</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">AWS S3</span>
+                            </div>
+                        </div>
+
+                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <h3 class="font-black text-slate-950 text-sm">Security & Auth</h3>
+                                <span class="text-[11px] text-blue-700 font-black">SEC</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">JWT Auth</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">RBAC Model</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">bcrypt</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Zod Validation</span>
+                            </div>
+                        </div>
+
+                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <h3 class="font-black text-slate-950 text-sm">Networking & Systems</h3>
+                                <span class="text-[11px] text-blue-700 font-black">INFRA</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Linux / Unix</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">HTTP / HTTPS</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">TCP / IP</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">CORS Policy</span>
+                            </div>
+                        </div>
+
+                        <div class="contrast-card p-6 space-y-4" data-cursor-text="SKILL">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                <h3 class="font-black text-slate-950 text-sm">Web & Soft Skills</h3>
+                                <span class="text-[11px] text-blue-700 font-black">TEAM</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">HTML / CSS</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">React.js</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Socket.io</span>
+                                <span class="px-3.5 py-1.5 bg-[#000000] text-white border-2 border-black rounded-lg font-bold">Leadership</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 6: FEATURED PROJECTS SHOWCASE (EXACT ORDER: 1ST CRACK MY DSA, 2ND TRUTH LENS, 3RD VIT-VERSE) -->
+            <section id="projects" data-section-theme="gray" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <div class="flex flex-wrap items-center justify-between border-b-2 border-black pb-4 gap-4">
+                        <div class="section-top__start">
+                            <div class="square"></div>
+                            <h3 class="text-xs font-mono-code font-black text-black uppercase tracking-widest">RECORDINGS / FEATURED PROJECTS</h3>
+                        </div>
+                        
+                        <!-- Year / Project Name Trigger Buttons (1ST CRACK MY DSA, 2ND TRUTH LENS, 3RD VIT-VERSE) -->
+                        <div class="flex items-center gap-2 font-mono-code text-xs">
+                            <button data-trigger="dsa" class="px-4 py-2 rounded-xl bg-blue-700 text-white font-black border-2 border-black transition-all shadow-[3px_3px_0px_#000]" data-cursor-text="PROJECT 1">1. CRACK MY DSA</button>
+                            <button data-trigger="truthlens" class="px-4 py-2 rounded-xl bg-white text-slate-950 hover:bg-blue-700 hover:text-white font-black transition-all border-2 border-black shadow-[3px_3px_0px_#000]" data-cursor-text="PROJECT 2">2. TRUTH LENS</button>
+                            <button data-trigger="vitverse" class="px-4 py-2 rounded-xl bg-white text-slate-950 hover:bg-blue-700 hover:text-white font-black transition-all border-2 border-black shadow-[3px_3px_0px_#000]" data-cursor-text="PROJECT 3">3. VIT-VERSE</button>
+                        </div>
+                    </div>
+
+                    <!-- Project Screenshots & Details Display -->
+                    <div class="grid lg:grid-cols-12 gap-10 items-center">
+                        
+                        <!-- Left Column: Real Production UI Screenshots -->
+                        <div class="lg:col-span-6 flex justify-center">
+                            
+                            <!-- 1ST: Crack My DSA UI Screenshot -->
+                            <div data-visual-item="dsa" class="project-preview-card" data-cursor-text="PREVIEW">
+                                <img src="assets/crack_dsa_ui.png" alt="Crack My DSA UI Screenshot" class="project-preview-img">
+                                <div class="p-4 bg-white border-t-2 border-black flex items-center justify-between font-mono-code text-xs">
+                                    <span class="font-black text-black">1. Crack My DSA Dashboard</span>
+                                    <span class="text-blue-700 font-bold">RAG Assistant</span>
+                                </div>
+                            </div>
+
+                            <!-- 2ND: Truth Lens UI Screenshot -->
+                            <div data-visual-item="truthlens" class="project-preview-card hidden" data-cursor-text="PREVIEW">
+                                <img src="assets/truth_lens_ui.png" alt="Truth Lens UI Screenshot" class="project-preview-img">
+                                <div class="p-4 bg-white border-t-2 border-black flex items-center justify-between font-mono-code text-xs">
+                                    <span class="font-black text-black">2. Truth Lens Fact Checker</span>
+                                    <span class="text-blue-700 font-bold">AWS Hackathon</span>
+                                </div>
+                            </div>
+
+                            <!-- 3RD: VIT-Verse UI Screenshot -->
+                            <div data-visual-item="vitverse" class="project-preview-card hidden" data-cursor-text="PREVIEW">
+                                <img src="assets/vit_verse_ui.png" alt="VIT-Verse UI Screenshot" class="project-preview-img">
+                                <div class="p-4 bg-white border-t-2 border-black flex items-center justify-between font-mono-code text-xs">
+                                    <span class="font-black text-black">3. VIT-Verse Video Engine</span>
+                                    <span class="text-blue-700 font-bold">Streaming Platform</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Right Column: Project Metadata -->
+                        <div class="lg:col-span-6 space-y-6">
+                            
+                            <!-- Project 1: Crack My DSA -->
+                            <div data-info-item="dsa" class="space-y-6">
+                                <span class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest block">PROJECT 01 • AI RAG & DSA PLATFORM</span>
+                                <h2 class="text-3xl sm:text-5xl font-black text-black font-heading uppercase leading-tight">Crack My DSA (CodePrep AI)</h2>
+                                
+                                <div class="space-y-2 text-sm text-black font-sans font-medium">
+                                    <p class="font-black text-black">Available as: Full-Stack React 18 & FastAPI RAG Microservices</p>
+                                    <p class="leading-relaxed">
+                                        Production-grade RAG-driven company interview assistant and Strivers A2Z DSA Sheet learning platform. Features metadata-filtered vector search (ChromaDB + Gemini Embeddings) over LeetCode problem frequencies across top tech firms (Google, Meta, Amazon, Microsoft, Netflix, Apple, Uber, Stripe).
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2 font-mono-code text-xs">
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">React 18 / Vite 5</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">FastAPI (Python)</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Google Gemini RAG</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">ChromaDB</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Supabase Postgres</span>
+                                </div>
+
+                                <div class="flex flex-wrap gap-4 pt-4">
+                                    <a href="https://crack-my-dsa.vercel.app" target="_blank" data-button class="px-6 py-3.5 bg-black text-white font-black text-xs rounded-xl hover:bg-blue-700 transition-all font-heading" data-cursor-text="DEMO">
+                                        STREAM / LIVE DEMO
+                                    </a>
+                                    <a href="https://github.com/AgnivaSardar/Crack-My-DSA" target="_blank" data-button class="px-6 py-3.5 bg-white text-black font-black text-xs rounded-xl border-2 border-black hover:bg-black hover:text-white transition-all font-heading" data-cursor-text="GITHUB">
+                                        GITHUB REPO
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Project 2: Truth Lens -->
+                            <div data-info-item="truthlens" class="hidden space-y-6">
+                                <span class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest block">PROJECT 02 • AWS AI FOR BHARAT HACKATHON</span>
+                                <h2 class="text-3xl sm:text-5xl font-black text-black font-heading uppercase leading-tight">Truth Lens — AI Fact Checker</h2>
+                                
+                                <div class="space-y-2 text-sm text-black font-sans font-medium">
+                                    <p class="font-black text-black">Available as: 5 Decoupled Microservices & Chrome Extension</p>
+                                    <p class="leading-relaxed">
+                                        Multi-modal AI news verification, deepfake text analysis, and media literacy simulation platform. Combines real-time web retrieval RAG (DuckDuckGo), high-speed PaddleOCR microservices (sub-2.3s response time), Groq LLM reasoning (LLaMA 3), and a Manifest V3 Chrome extension.
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2 font-mono-code text-xs">
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">React & TypeScript</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Node.js & Prisma</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Groq LLaMA 3</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">PaddleOCR v5</span>
+                                </div>
+
+                                <div class="pt-4">
+                                    <span class="px-6 py-3.5 bg-black text-white font-black text-xs rounded-xl inline-block font-heading border-2 border-black">
+                                        AWS HACKATHON TOP PROJECT
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Project 3: VIT-Verse -->
+                            <div data-info-item="vitverse" class="hidden space-y-6">
+                                <span class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest block">PROJECT 03 • STREAMING ENGINE</span>
+                                <h2 class="text-3xl sm:text-5xl font-black text-black font-heading uppercase leading-tight">VIT-Verse Streaming Platform</h2>
+                                
+                                <div class="space-y-2 text-sm text-black font-sans font-medium">
+                                    <p class="font-black text-black">Available as: Full-Stack Node.js & WebSocket Engine</p>
+                                    <p class="leading-relaxed">
+                                        Full-stack video streaming platform for VIT students and faculty with live/recorded lectures, course playlists, and role-based access. Reduced query latency to ~50-200ms using indexed SQL and Redis caching.
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2 font-mono-code text-xs">
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Node.js / Express</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">TypeScript</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">PostgreSQL</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Redis</span>
+                                    <span class="px-3.5 py-1.5 bg-black text-white border-2 border-black rounded-lg font-bold">Socket.io</span>
+                                </div>
+
+                                <div class="pt-4">
+                                    <a href="https://vit-verse-zeta.vercel.app" target="_blank" data-button class="px-6 py-3.5 bg-black text-white font-black text-xs rounded-xl hover:bg-blue-700 transition-all font-heading" data-cursor-text="STREAM">
+                                        VISIT STREAMING PLATFORM
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 7: WORK EXPERIENCE TABLE (PAUL KALKBRENNER NEON GREEN THEME + ACCORDION DRAWERS) -->
+            <section id="experience" data-section-theme="green" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square bg-black"></div>
+                            <h3 class="text-xs font-mono-code font-black text-black uppercase tracking-widest">WORK EXPERIENCE / TOUR DATES</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-black font-black">03 / 04 NODES</span>
+                    </div>
+
+                    <!-- Structured Tour Dates Table with Dynamic Vertical Expanders -->
+                    <div class="tour-dates__container font-mono-code text-xs sm:text-sm space-y-2">
+                        
+                        <!-- Table Header -->
+                        <div class="grid grid-cols-12 font-black uppercase tracking-wider pb-3 border-b-4 border-black text-black">
+                            <div class="col-span-3">PERIOD / DATE</div>
+                            <div class="col-span-4">ROLE / VENUE</div>
+                            <div class="col-span-3">COMPANY / CITY</div>
+                            <div class="col-span-2 text-right">ACTION</div>
+                        </div>
+
+                        <!-- Experience Row 1: VitaData Solutions -->
+                        <div class="tour-dates__item py-5 font-bold text-black" data-cursor-text="ROLE">
+                            <div class="grid grid-cols-12 items-center">
+                                <div class="col-span-3 font-black text-black">Jan 2026 – May 2026</div>
+                                <div class="col-span-4 font-black uppercase">Backend & Cloud Intern</div>
+                                <div class="col-span-3 font-bold">VitaData Solutions • Chennai</div>
+                                <div class="col-span-2 text-right">
+                                    <button data-button class="px-3.5 py-2 text-[11px] font-black uppercase bg-black text-white rounded-xl inline-block border-2 border-black shadow-[3px_3px_0px_#000]" data-cursor-text="EXPLORE">
+                                        EXPLORE ROLE
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Expandable Drawer -->
+                            <div class="tour-detail-drawer mt-4 pt-4 border-t-2 border-black/30 font-sans text-xs">
+                                <div class="p-6 bg-white rounded-2xl border-2 border-black space-y-3 text-black shadow-[4px_4px_0px_#000]">
+                                    <div class="flex items-center justify-between border-b-2 border-slate-200 pb-2 font-mono-code">
+                                        <span class="font-black text-blue-700 text-sm">VitaData Solutions Pvt. Ltd. (app.vitadata.tech)</span>
+                                        <span class="font-bold text-slate-700">Chennai, TN</span>
+                                    </div>
+                                    <ul class="space-y-2 leading-relaxed text-slate-900 font-medium">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Accelerated REST API response times by <strong>30-40%</strong> through database normalization, SQL query indexing, and Prisma ORM optimization.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Architected robust <strong>JWT & Role-Based Access Control (RBAC)</strong> authorization workflows for secure multi-tenant API endpoints.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Containerized backend services using <strong>Docker & Docker Compose</strong>, establishing automated CI/CD deployment pipelines on <strong>AWS EC2</strong>.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-2 pt-2 font-mono-code text-[11px]">
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Node.js</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">PostgreSQL</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">JWT / RBAC</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Docker</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">AWS EC2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Row 2: Auracle Labs -->
+                        <div class="tour-dates__item py-5 font-bold text-black" data-cursor-text="ROLE">
+                            <div class="grid grid-cols-12 items-center">
+                                <div class="col-span-3 font-black text-black">Sep 2025 – Mar 2026</div>
+                                <div class="col-span-4 font-black uppercase">Backend & DB Intern</div>
+                                <div class="col-span-3 font-bold">Auracle Labs • Remote</div>
+                                <div class="col-span-2 text-right">
+                                    <button data-button class="px-3.5 py-2 text-[11px] font-black uppercase bg-black text-white rounded-xl inline-block border-2 border-black shadow-[3px_3px_0px_#000]" data-cursor-text="DETAILS">
+                                        EXPLORE ROLE
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Expandable Drawer -->
+                            <div class="tour-detail-drawer mt-4 pt-4 border-t-2 border-black/30 font-sans text-xs">
+                                <div class="p-6 bg-white rounded-2xl border-2 border-black space-y-3 text-black shadow-[4px_4px_0px_#000]">
+                                    <div class="flex items-center justify-between border-b-2 border-slate-200 pb-2 font-mono-code">
+                                        <span class="font-black text-blue-700 text-sm">Auracle Labs Pvt. Ltd.</span>
+                                        <span class="font-bold text-slate-700">Remote</span>
+                                    </div>
+                                    <ul class="space-y-2 leading-relaxed text-slate-900 font-medium">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Engineered high-performance backend microservices using <strong>TypeScript, Node.js, Express.js, PostgreSQL, and Prisma ORM</strong>.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Reduced average user logon latency to <strong>~165 ms</strong> and optimized analytics endpoints to <strong>~15-40 ms</strong> under peak loads of <strong>1,000+ concurrent users</strong>.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Implemented high-speed <strong>Redis caching</strong> layer to eliminate database load spikes and secure APIs with bcrypt, CORS, and Zod.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-2 pt-2 font-mono-code text-[11px]">
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">TypeScript</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Express.js</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">PostgreSQL</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Redis Caching</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Prisma</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Row 3: Maths Club VITCC -->
+                        <div class="tour-dates__item py-5 font-bold text-black" data-cursor-text="ROLE">
+                            <div class="grid grid-cols-12 items-center">
+                                <div class="col-span-3 font-black text-black">Aug 2025 – Present</div>
+                                <div class="col-span-4 font-black uppercase">Technical Lead</div>
+                                <div class="col-span-3 font-bold">Mathematics Club • VITCC</div>
+                                <div class="col-span-2 text-right">
+                                    <button data-button class="px-3.5 py-2 text-[11px] font-black uppercase bg-black text-white rounded-xl inline-block border-2 border-black shadow-[3px_3px_0px_#000]" data-cursor-text="LEAD">
+                                        EXPLORE ROLE
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Expandable Drawer -->
+                            <div class="tour-detail-drawer mt-4 pt-4 border-t-2 border-black/30 font-sans text-xs">
+                                <div class="p-6 bg-white rounded-2xl border-2 border-black space-y-3 text-black shadow-[4px_4px_0px_#000]">
+                                    <div class="flex items-center justify-between border-b-2 border-slate-200 pb-2 font-mono-code">
+                                        <span class="font-black text-blue-700 text-sm">Mathematics Club, VIT Chennai</span>
+                                        <span class="font-bold text-slate-700">Chennai, TN</span>
+                                    </div>
+                                    <ul class="space-y-2 leading-relaxed text-slate-900 font-medium">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Spearheaded technical operations and led full-stack development using <strong>React.js, Flask (Python), and PostgreSQL</strong>.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Reduced administrative operational overhead by <strong>50%</strong> by deploying automated event management workflows and real-time student leaderboards.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-2 pt-2 font-mono-code text-[11px]">
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">React.js</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Flask</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">PostgreSQL</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Leadership</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Row 4: Krisko Software -->
+                        <div class="tour-dates__item py-5 font-bold text-black" data-cursor-text="ROLE">
+                            <div class="grid grid-cols-12 items-center">
+                                <div class="col-span-3 font-black text-black">Jun 2025 – Jul 2026</div>
+                                <div class="col-span-4 font-black uppercase">Clinical AI Intern</div>
+                                <div class="col-span-3 font-bold">Krisko Software • Remote</div>
+                                <div class="col-span-2 text-right">
+                                    <button data-button class="px-3.5 py-2 text-[11px] font-black uppercase bg-black text-white rounded-xl inline-block border-2 border-black shadow-[3px_3px_0px_#000]" data-cursor-text="AI">
+                                        EXPLORE ROLE
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Expandable Drawer -->
+                            <div class="tour-detail-drawer mt-4 pt-4 border-t-2 border-black/30 font-sans text-xs">
+                                <div class="p-6 bg-white rounded-2xl border-2 border-black space-y-3 text-black shadow-[4px_4px_0px_#000]">
+                                    <div class="flex items-center justify-between border-b-2 border-slate-200 pb-2 font-mono-code">
+                                        <span class="font-black text-blue-700 text-sm">Krisko Software</span>
+                                        <span class="font-bold text-slate-700">Remote</span>
+                                    </div>
+                                    <ul class="space-y-2 leading-relaxed text-slate-900 font-medium">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Developed high-reliability clinical AI tools using <strong>FastAPI, Python, Gemini 1.5 Pro, and Ollama local LLMs</strong>.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-blue-700 font-black">⚡</span>
+                                            <span>Achieved <strong>100% hallucination mitigation</strong> for medical data extraction by introducing strict schema validation and retrieval verification.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-2 pt-2 font-mono-code text-[11px]">
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">FastAPI</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Python</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Gemini RAG</span>
+                                        <span class="px-2.5 py-1 bg-black text-white rounded font-bold">Ollama</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 8: CLI TERMINAL & DEVELOPER TOOLS (LIGHT LAVENDER THEME + WHITE CARDS) -->
+            <section id="cli" data-section-theme="cli" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-10">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square"></div>
+                            <h3 class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest">CLI TERMINAL & DEVELOPER UTILITIES</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-slate-900 font-black">INTERACTIVE</span>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+                        
+                        <!-- Interactive Terminal (7 cols) -->
+                        <div class="lg:col-span-7 contrast-card p-6 space-y-4 flex flex-col justify-between" data-cursor-text="TERMINAL">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-full bg-rose-500 border border-black"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500 border border-black"></div>
+                                        <div class="w-3 h-3 rounded-full bg-emerald-500 border border-black"></div>
+                                        <span class="text-xs font-mono-code font-bold text-slate-950 pl-2">agniva@vit-chennai:~ (bash)</span>
+                                    </div>
+                                    <span class="text-[11px] text-blue-700 font-mono-code font-black">CLI Shell v2.0</span>
+                                </div>
+
+                                <div id="terminalBody" class="h-48 overflow-y-auto pr-2 space-y-2 text-xs font-mono-code leading-relaxed text-slate-950">
+                                    <div class="text-slate-800 font-bold">Type <span class="text-blue-700 font-black">'help'</span> or click a command below to explore system details.</div>
+                                    <div class="text-slate-400">------------------------------------------------</div>
+                                    <div class="text-blue-700 font-black">System Ready. Operating at 9.30 CGPA.</div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 pt-2 border-t-2 border-black">
+                                <form id="terminalForm" class="flex items-center gap-2 bg-slate-100 px-3.5 py-2.5 rounded-xl border-2 border-black">
+                                    <span class="text-blue-700 text-xs font-mono-code font-black">$&nbsp;</span>
+                                    <input type="text" id="terminalInput" placeholder="type 'help', 'projects', 'skills'..." autocomplete="off" class="w-full bg-transparent text-xs font-mono-code font-bold text-slate-950 focus:outline-none placeholder-slate-500">
+                                </form>
+
+                                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono-code">
+                                    <button data-cmd="help" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ help ]</button>
+                                    <button data-cmd="bio" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ bio ]</button>
+                                    <button data-cmd="skills" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ skills ]</button>
+                                    <button data-cmd="projects" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ projects ]</button>
+                                    <button data-cmd="exp" class="cmd-chip px-3 py-1 bg-[#000000] hover:bg-blue-700 text-white rounded-lg border-2 border-black transition-colors font-bold">[ exp ]</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1-Click Clipboard & GitHub Pulse (5 cols) -->
+                        <div class="lg:col-span-5 contrast-card p-6 space-y-6 flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between border-b-2 border-black pb-3">
+                                    <span class="text-xs font-black text-slate-950 font-heading uppercase">Clipboard SSH Action</span>
+                                    <span class="text-[11px] text-blue-700 font-mono-code font-black">1-Click Copy</span>
+                                </div>
+                                <p class="text-xs text-slate-900 font-bold">Copy developer email to clipboard with one click:</p>
+                                <button data-copy="agnivasardarwork@gmail.com" class="w-full py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-left rounded-xl border-2 border-black text-xs font-mono-code font-bold text-slate-950 transition-all flex items-center justify-between shadow-[3px_3px_0px_#000]" data-cursor-text="COPY">
+                                    <span>git clone agnivasardarwork@gmail.com</span>
+                                    <svg class="w-4 h-4 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                </button>
+                            </div>
+
+                            <div class="space-y-3 border-t-2 border-black pt-4 font-mono-code">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-black text-slate-950">GitHub Commit Pulse</span>
+                                    <a href="https://github.com/AgnivaSardar" target="_blank" class="text-xs text-blue-700 hover:underline font-black">@AgnivaSardar</a>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3 bg-slate-100 p-4 rounded-2xl border-2 border-black text-center shadow-[3px_3px_0px_#000]">
+                                    <div>
+                                        <span class="text-xl font-black text-blue-700">15+</span>
+                                        <span class="text-[11px] text-slate-950 block font-extrabold">Repos</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-xl font-black text-blue-700">10+</span>
+                                        <span class="text-[11px] text-slate-950 block font-extrabold">Followers</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-xl font-black text-blue-700">40+</span>
+                                        <span class="text-[11px] text-slate-950 block font-extrabold">Commits</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 9: EDUCATION & HONORS (PAUL KALKBRENNER YELLOW THEME + WHITE CARDS) -->
+            <section id="awards" data-section-theme="yellow" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square bg-black"></div>
+                            <h3 class="text-xs font-mono-code font-black text-black uppercase tracking-widest">EDUCATION & ACADEMIC HONORS</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-black font-black">04 / 04 NODES</span>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-8 items-stretch font-sans">
+                        
+                        <!-- VIT Chennai (WHITE HIGH-CONTRAST CARD) -->
+                        <div class="contrast-card p-8 space-y-6 flex flex-col justify-between" data-cursor-text="VIT">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                                    <h3 class="text-2xl font-black font-heading uppercase text-black">VIT Chennai</h3>
+                                    <span class="text-xs font-mono-code text-blue-700 font-black">July 2024 – May 2028</span>
+                                </div>
+                                <h4 class="text-lg font-extrabold text-black">B.Tech in Computer Science Engineering (Cyber Physical Systems)</h4>
+                                <p class="text-xs text-slate-800 font-mono-code font-bold">Vellore Institute of Technology, Chennai, TN, India</p>
+                            </div>
+
+                            <div class="p-5 bg-slate-100 rounded-2xl border-2 border-black flex items-center justify-between font-mono-code shadow-[3px_3px_0px_#000]">
+                                <div>
+                                    <span class="text-xs text-slate-800 font-bold block">Cumulative GPA</span>
+                                    <span class="text-2xl font-black text-blue-700">CGPA: 9.30 / 10</span>
+                                </div>
+                                <span class="px-3.5 py-1.5 bg-blue-700 text-white text-xs font-black rounded-full uppercase border-2 border-black">Top Academic Tier</span>
+                            </div>
+                        </div>
+
+                        <!-- Leadership & Awards (WHITE HIGH-CONTRAST CARD) -->
+                        <div class="contrast-card p-8 space-y-6 flex flex-col justify-between" data-cursor-text="AWARDS">
+                            <div class="space-y-4 border-b-2 border-black pb-4">
+                                <h3 class="text-2xl font-black font-heading uppercase text-black">Honors & Distinctions</h3>
+                                <p class="text-xs text-blue-700 font-mono-code font-bold">National Hackathons & Fellowships</p>
+                            </div>
+
+                            <div class="space-y-4 text-xs leading-relaxed font-sans font-medium text-black">
+                                <div class="border-l-4 border-blue-700 pl-4 space-y-1">
+                                    <span class="font-black text-black text-sm block">Smart India Hackathon 2024 & 2025 — Top 50 Finalist</span>
+                                    <p class="text-slate-900 font-bold">Top 50 Finalist out of ~800 participating colleges nationwide in intra-college engineering hackathons.</p>
+                                </div>
+                                <div class="border-l-4 border-blue-700 pl-4 space-y-1">
+                                    <span class="font-black text-black text-sm block">Lifology Global Fellow — Gold Medalist (2nd Rank)</span>
+                                    <p class="text-slate-900 font-bold">Secured 2nd position out of 10,000 competing students nationwide based on leadership and technical communication.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 10: TESTIMONIALS CAROUSEL (LIGHT PINK THEME + WHITE CARDS) -->
+            <section id="testimonials" data-section-theme="pink" class="py-20 px-4 sm:px-6 lg:px-8 border-b-2 border-black">
+                <div class="max-w-5xl mx-auto space-y-10">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square"></div>
+                            <h3 class="text-xs font-mono-code font-black text-blue-700 uppercase tracking-widest">REVIEWS & TESTIMONIALS</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-slate-900 font-black">FEEDBACK</span>
+                    </div>
+
+                    <div class="relative max-w-3xl mx-auto">
+                        <button class="carousel-btn prev-btn absolute -left-4 sm:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border-2 border-black text-slate-950 flex items-center justify-center z-30 shadow-[3px_3px_0px_#000]" aria-label="Previous testimonial" data-cursor-text="PREV">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+
+                        <div class="testimonials-track relative min-h-[220px] flex items-center justify-center">
+                            
+                            <div class="testimonial-card active absolute w-full transition-all duration-500 contrast-card p-8 space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-8 h-8 text-blue-700/60" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                                    <p class="text-sm sm:text-base text-slate-950 font-medium italic leading-relaxed font-sans">
+                                        Agniva consistently delivers high-quality code and demonstrates exceptional problem-solving skills. His database normalization work improved our REST API throughput by 30-40% while keeping security tight with JWT and RBAC. A dedicated engineer who takes full ownership.
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-3 border-t-2 border-black pt-4 font-heading">
+                                    <div class="w-10 h-10 rounded-full bg-blue-700 text-white font-black flex items-center justify-center text-sm border-2 border-black shadow-sm">VD</div>
+                                    <div>
+                                        <h4 class="text-xs font-black text-slate-950">Senior Backend Lead</h4>
+                                        <p class="text-[11px] text-slate-700 font-mono-code font-bold">VitaData Solutions Pvt. Ltd.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card opacity-0 pointer-events-none scale-95 absolute w-full transition-all duration-500 contrast-card p-8 space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-8 h-8 text-blue-700/60" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                                    <p class="text-sm sm:text-base text-slate-950 font-medium italic leading-relaxed font-sans">
+                                        Working with Agniva was a great experience. He optimized our EdTech backend to ~165ms for login and ~15-40ms for analytics endpoints with Redis caching. His focus on security using bcrypt, CORS, and Zod input validation is top notch.
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-3 border-t-2 border-black pt-4 font-heading">
+                                    <div class="w-10 h-10 rounded-full bg-blue-700 text-white font-black flex items-center justify-center text-sm border-2 border-black shadow-sm">AL</div>
+                                    <div>
+                                        <h4 class="text-xs font-black text-slate-950">Lead Engineer</h4>
+                                        <p class="text-[11px] text-slate-700 font-mono-code font-bold">Auracle Labs Pvt. Ltd.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button class="carousel-btn next-btn absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border-2 border-black text-slate-950 flex items-center justify-center z-30 shadow-[3px_3px_0px_#000]" aria-label="Next testimonial" data-cursor-text="NEXT">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+
+                    <div class="carousel-indicators flex justify-center gap-2 mt-6"></div>
+                </div>
+            </section>
+
+            <!-- SECTION 11: CONTACT & NEWSLETTER (PAUL KALKBRENNER ORANGE THEME + WHITE CARDS) -->
+            <section id="contact" data-section-theme="orange" class="py-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4">
+                        <div class="section-top__start">
+                            <div class="square bg-black"></div>
+                            <h3 class="text-xs font-mono-code font-bold text-black uppercase tracking-widest">GET IN TOUCH / INTERN INQUIRIES</h3>
+                        </div>
+                        <span class="text-xs font-mono-code text-black font-bold">CONTACT</span>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-8 items-start">
+                        
+                        <!-- Contact Info (WHITE HIGH-CONTRAST CARD) -->
+                        <div class="lg:col-span-5 contrast-card p-8 space-y-6" data-cursor-text="INFO">
+                            <h3 class="text-xl font-black font-heading uppercase border-b-2 border-black pb-3 text-black">Contact Info</h3>
+                            
+                            <div class="space-y-4 text-xs font-mono-code font-bold">
+                                <div>
+                                    <span class="text-slate-700 block mb-1">LOCATION</span>
+                                    <span class="font-black text-black">Chennai, Tamil Nadu, India</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-700 block mb-1">PHONE</span>
+                                    <a href="tel:+916290166815" class="font-black text-blue-700 hover:underline">+91 6290166815</a>
+                                </div>
+                                <div>
+                                    <span class="text-slate-700 block mb-1">EMAIL</span>
+                                    <a href="mailto:agnivasardarwork@gmail.com" class="font-black text-blue-700 hover:underline">agnivasardarwork@gmail.com</a>
+                                </div>
+                                <div>
+                                    <span class="text-slate-700 block mb-1">LINKEDIN</span>
+                                    <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank" class="font-black text-blue-700 hover:underline">linkedin.com/in/agniva-sardar-13b05817b</a>
+                                </div>
+                                <div>
+                                    <span class="text-slate-700 block mb-1">GITHUB</span>
+                                    <a href="https://github.com/AgnivaSardar" target="_blank" class="font-black text-blue-700 hover:underline">github.com/AgnivaSardar</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Send a Message Form (WHITE HIGH-CONTRAST CARD) -->
+                        <div class="lg:col-span-7 contrast-card p-8 space-y-4">
+                            <h3 class="text-xl font-black font-heading uppercase border-b-2 border-black pb-3 text-black">Send a Message</h3>
+                            
+                            <form id="contactForm" class="space-y-4 font-sans text-xs">
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="name" class="block font-black text-slate-900 mb-1">YOUR NAME</label>
+                                        <input type="text" id="name" name="name" required placeholder="John Doe" class="w-full px-4 py-3 bg-slate-100 border-2 border-black rounded-xl text-black placeholder-slate-500 focus:outline-none focus:border-blue-700 font-mono-code font-bold shadow-[3px_3px_0px_#000]">
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block font-black text-slate-900 mb-1">YOUR EMAIL</label>
+                                        <input type="email" id="email" name="email" required placeholder="john@example.com" class="w-full px-4 py-3 bg-slate-100 border-2 border-black rounded-xl text-black placeholder-slate-500 focus:outline-none focus:border-blue-700 font-mono-code font-bold shadow-[3px_3px_0px_#000]">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="message" class="block font-black text-slate-900 mb-1">MESSAGE</label>
+                                    <textarea id="message" name="message" rows="4" required placeholder="Write your message or intern inquiry here..." class="w-full px-4 py-3 bg-slate-100 border-2 border-black rounded-xl text-black placeholder-slate-500 focus:outline-none focus:border-blue-700 font-mono-code font-bold shadow-[3px_3px_0px_#000]"></textarea>
+                                </div>
+                                <button type="submit" data-button class="w-full py-4 bg-blue-700 text-white font-black text-xs rounded-xl transition-all font-heading uppercase tracking-wider" data-cursor-text="SEND">
+                                    SEND MESSAGE
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER WITH METRICS & STATUS -->
+        <footer class="border-t-2 border-black bg-[#f8fafc] py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-blue-700 text-white flex items-center justify-center text-xs font-black font-heading shadow-md border-2 border-black">AS</div>
+                    <div>
+                        <span class="text-xs text-slate-950 font-black block">Agniva Sardar • Backend Engineer Intern</span>
+                        <span class="text-[11px] font-mono-code text-slate-700 font-bold">&copy; All rights reserved. CGPA: 9.30 / 10</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 text-xs font-mono-code text-slate-950 font-bold bg-white px-4 py-2 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000]">
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span> Status: Operational</span>
+                    <span>|</span>
+                    <span>Latency: 18ms</span>
+                    <span>|</span>
+                    <span>Uptime: 99.9%</span>
+                </div>
+
+                <div class="flex items-center gap-6 text-xs text-slate-950 font-black">
+                    <a href="https://linkedin.com/in/agniva-sardar-13b05817b" target="_blank" class="hover:text-blue-700 transition-colors">LinkedIn</a>
+                    <a href="https://github.com/AgnivaSardar" target="_blank" class="hover:text-blue-700 transition-colors">GitHub</a>
+                    <a href="mailto:agnivasardarwork@gmail.com" class="hover:text-blue-700 transition-colors">Email</a>
+                </div>
             </div>
         </footer>
+
     </div>
 
     <script src="js/main.js"></script>

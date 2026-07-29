@@ -1,615 +1,443 @@
-// ==================== INTERACTIVE BACKGROUND ==================== 
-function initInteractiveBackground() {
-    const canvas = document.getElementById('interactiveCanvas');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let scrollProgress = 0;
-    
-    // Particles for ash flame effect
-    const particles = [];
-    
-    class Particle {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
-            this.vx = (Math.random() - 0.5) * 0.8; // gentle sideways drift
-            this.vy = -(Math.random() * 1.2 + 0.2); // float upward
-            this.life = 1;
-              this.size = Math.random() * 1.8 + 0.4; // smaller particles
-              this.color = `rgba(${255}, ${Math.floor(80 + Math.random()*60)}, ${Math.floor(Math.random()*35)}, 0.35)`; // softer embers
-              this.flicker = Math.random() * 0.4 + 0.25; // lower brightness
-        }
-        
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            this.life -= 0.015;
-            // slight upward acceleration mimicking hot air
-            this.vy -= 0.005;
-            // subtle turbulence
-            this.vx += (Math.random() - 0.5) * 0.02;
-        }
-        
-        draw(ctx) {
-            if (this.life <= 0) return;
-            ctx.globalAlpha = this.life * this.flicker;
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.globalAlpha = 1;
-        }
-    }
-    
-    // Track mouse movement
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        // Update orb positions
-        const orb1 = document.querySelector('.orb-1');
-        const orb2 = document.querySelector('.orb-2');
-        const orb3 = document.querySelector('.orb-3');
-        
-        if (orb1) {
-            const offsetX = (mouseX - window.innerWidth / 2) * 0.05;
-            const offsetY = (mouseY - window.innerHeight / 2) * 0.05;
-            orb1.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        }
-        
-        if (orb2) {
-            const offsetX = (mouseX - window.innerWidth / 2) * -0.03;
-            const offsetY = (mouseY - window.innerHeight / 2) * -0.03;
-            orb2.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        }
-        
-        if (orb3) {
-            const offsetX = (mouseX - window.innerWidth / 2) * 0.02;
-            const offsetY = (mouseY - window.innerHeight / 2) * 0.02;
-            orb3.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
-        }
-    });
-    
-    // Track scroll for animations
-    window.addEventListener('scroll', () => {
-        scrollProgress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 360;
-        
-        const blobs = document.querySelectorAll('.blob');
-        blobs.forEach((blob, index) => {
-            const offset = scrollProgress * (0.5 + index * 0.1);
-            blob.style.transform = `rotate(${offset}deg) scale(${1 + Math.sin(scrollProgress / 100 + index) * 0.1})`;
-        });
-    });
-    
-    // Animation loop
-    const maxParticles = 220;
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // lighter overlay to show embers better
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // uniform emission across entire canvas bottom and sides
-        if (particles.length < maxParticles) {
-            // Bottom edge emitters (reduced)
-            const bottomEmitters = 3;
-            for (let i = 0; i < bottomEmitters; i++) {
-                const x = canvas.width * Math.random();
-                const y = canvas.height - (Math.random() * 100);
-                particles.push(new Particle(x, y));
-            }
-            // Left edge emitters
-            const leftEmitters = 1;
-            for (let i = 0; i < leftEmitters; i++) {
-                const x = Math.random() * 100;
-                const y = canvas.height * Math.random();
-                particles.push(new Particle(x, y));
-            }
-            // Right edge emitters
-            const rightEmitters = 1;
-            for (let i = 0; i < rightEmitters; i++) {
-                const x = canvas.width - (Math.random() * 100);
-                const y = canvas.height * Math.random();
-                particles.push(new Particle(x, y));
-            }
-        }
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-            particles[i].update();
-            particles[i].draw(ctx);
-            
-            if (particles[i].life <= 0) {
-                particles.splice(i, 1);
-            }
-        }
-        // no connecting lines for ash ambiance
-        
-        requestAnimationFrame(animate);
-    }
-    
-    animate();
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-}
-
-// ==================== LOADING SCREEN - CANVAS ANIMATION ====================
+// ==================== BOOT-UP LOADING ANIMATION ====================
 function initLoadingAnimation() {
     const canvas = document.getElementById('loadingCanvas');
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
-    canvas.width = 150;
-    canvas.height = 150;
-    
+
+    canvas.width = 140;
+    canvas.height = 140;
+
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     let rotation = 0;
-    
+    let progress = 0;
+
+    const progressEl = document.getElementById('loadingProgress');
+
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#000000';
+        ctx.fillStyle = '#f8fafc';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw rotating square
+
+        // Draw rotating square with Royal Electric Blue accent
         ctx.save();
         ctx.translate(centerX, centerY);
         ctx.rotate((rotation * Math.PI) / 180);
-        
-        ctx.strokeStyle = '#FF0000';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(-40, -40, 80, 80);
-        
-        // Draw corner dots
-        ctx.fillStyle = '#CC0000';
+
+        ctx.strokeStyle = '#1d4ed8';
+        ctx.lineWidth = 2.5;
+        ctx.strokeRect(-38, -38, 76, 76);
+
+        // Corner dots
+        ctx.fillStyle = '#2563eb';
         for (let i = 0; i < 4; i++) {
             const angle = (i * Math.PI) / 2;
             ctx.beginPath();
-            ctx.arc(Math.cos(angle + rotation * 0.02) * 45, Math.sin(angle + rotation * 0.02) * 45, 4, 0, Math.PI * 2);
+            ctx.arc(Math.cos(angle + rotation * 0.02) * 42, Math.sin(angle + rotation * 0.02) * 42, 3.5, 0, Math.PI * 2);
             ctx.fill();
         }
-        
         ctx.restore();
-        
-        // Draw center pulsing dot
+
+        // Pulsing center dot
         const pulse = Math.sin(rotation / 10) * 0.3 + 0.7;
-        ctx.fillStyle = `rgba(255, 0, 0, ${pulse})`;
+        ctx.fillStyle = `rgba(29, 78, 216, ${pulse})`;
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 8 * pulse, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, 7 * pulse, 0, Math.PI * 2);
         ctx.fill();
-        
-        // Draw orbiting line
-        ctx.strokeStyle = `rgba(204, 0, 0, ${0.5 + Math.sin(rotation / 20) * 0.3})`;
-        ctx.lineWidth = 1;
+
+        // Orbiting arc
+        ctx.strokeStyle = `rgba(37, 99, 235, ${0.5 + Math.sin(rotation / 20) * 0.3})`;
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 55, 0, (rotation / 30) % (Math.PI * 2));
+        ctx.arc(centerX, centerY, 52, 0, (rotation / 30) % (Math.PI * 2));
         ctx.stroke();
-        
-        rotation += 3;
-        
+
+        rotation += 3.5;
+        progress = Math.min(100, progress + 2.5);
+        if (progressEl) progressEl.style.width = `${progress}%`;
+
         if (rotation < 540) {
             requestAnimationFrame(animate);
         }
     }
-    
+
     animate();
 }
 
-// ==================== WELCOME SCREEN ====================
 function showWelcomeScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
     const welcomeScreen = document.getElementById('welcomeScreen');
-    welcomeScreen.classList.remove('hidden');
-    
+
+    if (loadingScreen) loadingScreen.classList.add('hidden');
+    if (welcomeScreen) welcomeScreen.classList.remove('hidden');
+
     setTimeout(() => {
-        welcomeScreen.classList.add('hidden');
+        if (welcomeScreen) welcomeScreen.classList.add('hidden');
         showMainPortfolio();
     }, 1400);
 }
 
-// ==================== MAIN PORTFOLIO ====================
 function showMainPortfolio() {
     const mainPortfolio = document.getElementById('mainPortfolio');
-    mainPortfolio.classList.remove('hidden');
-    initScrollAnimations();
-    initCursorGlow();
-    initFormSubmission();
-    initMobileMenu();
-    tagAshRevealSections();
-    initActivity();
-    initTestimonialsCarousel();
-}
-// ==================== ACTIVITY (GitHub/LeetCode) ====================
-async function initActivity() {
-    try {
-        const userResp = await fetch('https://api.github.com/users/AgnivaSardar');
-        const user = await userResp.json();
-        const repos = user.public_repos ?? '--';
-        const followers = user.followers ?? '--';
-        const eventsResp = await fetch('https://api.github.com/users/AgnivaSardar/events/public');
-        const events = await eventsResp.json();
-        const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
-        const recentCommits = (events || []).filter(ev => ev.type === 'PushEvent' && new Date(ev.created_at).getTime() >= thirtyDaysAgo)
-            .reduce((acc, ev) => acc + (ev.payload?.commits?.length || 1), 0);
-        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-        setText('ghRepos', repos);
-        setText('ghFollowers', followers);
-        setText('ghRecentCommits', recentCommits);
-    } catch (e) {
-        console.warn('Activity fetch failed', e);
-    }
+    if (mainPortfolio) mainPortfolio.classList.remove('hidden');
 }
 
+// ==================== PAUL KALKBRENNER CUSTOM CURSOR BUBBLE ====================
+function initCursorBubble() {
+    const cursor = document.getElementById('cursorBubble');
+    const cursorText = document.getElementById('cursorText');
+    if (!cursor || !cursorText) return;
 
-// ==================== SCROLL ANIMATIONS ====================
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animation = `fadeInUp 0.8s ease-out forwards`;
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    document.querySelectorAll('.section-title, .project-card, .experience-item, .timeline-item, .contact-form').forEach(el => {
-        observer.observe(el);
+    window.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
     });
-    
-    // Parallax scroll effect
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const blobs = document.querySelectorAll('.blob');
-        
-        blobs.forEach((blob, index) => {
-            blob.style.transform = `translateY(${scrolled * 0.5 * (index % 2 === 0 ? 1 : -1)}px)`;
+
+    const triggerElements = document.querySelectorAll('[data-cursor-text]');
+    triggerElements.forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+            const text = el.getAttribute('data-cursor-text') || 'VIEW';
+            cursorText.textContent = text;
+            cursor.classList.add('active');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
         });
     });
 }
 
-// Tag sections for ash reveal and activate on view
-function tagAshRevealSections() {
-    document.querySelectorAll('section').forEach(sec => {
-        sec.classList.add('ash-reveal');
-    });
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('ash-active');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-    document.querySelectorAll('.ash-reveal').forEach(el => revealObserver.observe(el));
-}
+// ==================== SOUND EQUALIZER & TOGGLE ====================
+function initSoundToggle() {
+    const btn = document.getElementById('soundToggleBtn');
+    const textEl = document.getElementById('soundBtnText');
+    const heroStatus = document.getElementById('heroSoundFlash');
+    if (!btn || !textEl) return;
 
-// ==================== FORM SUBMISSION ====================
-function initFormSubmission() {
-    const form = document.getElementById('contactForm');
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            linkedin: document.getElementById('linkedin').value,
-            github: document.getElementById('github').value,
-            message: document.getElementById('message').value
-        };
-        
-        const statusDiv = document.getElementById('formStatus');
-        
-        try {
-            // Send to FormSubmit (free service)
-            const response = await fetch('https://formspree.io/f/xyzqwert', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            
-            if (response.ok) {
-                statusDiv.textContent = 'Message sent successfully! I\'ll get back to you soon.';
-                statusDiv.classList.add('success');
-                statusDiv.classList.remove('error');
-                form.reset();
-            } else {
-                throw new Error('Failed to send message');
-            }
-        } catch (error) {
-            // Fallback: Show success message anyway (form can be configured to email later)
-            statusDiv.textContent = 'Thank you! I\'ll review your message shortly.';
-            statusDiv.classList.add('success');
-            statusDiv.classList.remove('error');
-            
-            // Log the data for now
-            console.log('Form data:', formData);
-            
-            setTimeout(() => {
-                form.reset();
-                statusDiv.textContent = '';
-            }, 3000);
-        }
-    });
-}
+    let isPlaying = true;
 
-// ==================== CURSOR GLOW EFFECT ==================== 
-function initCursorGlow() {
-    let mouseX = 0;
-    let mouseY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        // Apply glow to nearby interactive elements
-        const elements = document.querySelectorAll('.project-card, .btn, .nav-link, .skill-tag');
-        
-        elements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            const elX = rect.left + rect.width / 2;
-            const elY = rect.top + rect.height / 2;
-            
-            const distance = Math.sqrt(
-                Math.pow(mouseX - elX, 2) + Math.pow(mouseY - elY, 2)
-            );
-            
-            const maxDistance = 200;
-            
-            if (distance < maxDistance) {
-                const intensity = (1 - distance / maxDistance);
-                el.style.boxShadow = `0 0 ${20 * intensity}px rgba(255, 0, 0, ${0.3 * intensity})`;
-            } else {
-                el.style.boxShadow = '';
-            }
-        });
-    });
-}
-function initMobileMenu() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    const navbar = document.querySelector('.navbar');
-    
-    if (!hamburger || !navMenu) return;
-    
-    let isOpen = false;
-    
-    hamburger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isOpen = !isOpen;
-        
-        if (isOpen) {
-            navMenu.classList.add('mobile-active');
-            hamburger.classList.add('active');
+    btn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            textEl.textContent = "Sound ON";
+            if (heroStatus) heroStatus.textContent = "Now playing: Distributed Systems Engine";
+            btn.setAttribute('data-sound-active', 'true');
         } else {
-            navMenu.classList.remove('mobile-active');
-            hamburger.classList.remove('active');
-        }
-    });
-    
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                isOpen = false;
-                navMenu.classList.remove('mobile-active');
-                hamburger.classList.remove('active');
-            }
-        });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (isOpen && !navbar.contains(e.target)) {
-            isOpen = false;
-            navMenu.classList.remove('mobile-active');
-            hamburger.classList.remove('active');
+            textEl.textContent = "Sound OFF";
+            if (heroStatus) heroStatus.textContent = "Sound Paused";
+            btn.setAttribute('data-sound-active', 'false');
         }
     });
 }
 
-// ==================== SMOOTH SCROLLING ====================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+// ==================== PROJECT SELECTOR & VISUAL UI PREVIEW ====================
+function initVinylProjectSelector() {
+    const triggers = document.querySelectorAll('[data-trigger]');
+    const visualItems = document.querySelectorAll('[data-visual-item]');
+    const infoItems = document.querySelectorAll('[data-info-item]');
+
+    triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+            const targetId = trigger.getAttribute('data-trigger');
+
+            triggers.forEach((t) => t.classList.remove('bg-blue-700', 'text-white'));
+            trigger.classList.add('bg-blue-700', 'text-white');
+
+            visualItems.forEach((v) => {
+                if (v.getAttribute('data-visual-item') === targetId) {
+                    v.classList.remove('hidden');
+                } else {
+                    v.classList.add('hidden');
+                }
             });
-        }
-    });
-});
 
-// ==================== INITIALIZATION ====================
-window.addEventListener('load', () => {
-    // Initialize interactive background first
-    initInteractiveBackground();
-    
-    // Start loading animation
-    initLoadingAnimation();
-    
-    // After loading completes, show welcome screen
-    setTimeout(() => {
-        document.getElementById('loadingScreen').classList.add('hidden');
-        showWelcomeScreen();
-    }, 1800);
-});
-
-// Add intersection observer for parallax effect on sections
-window.addEventListener('scroll', () => {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section');
-    
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
+            infoItems.forEach((info) => {
+                if (info.getAttribute('data-info-item') === targetId) {
+                    info.classList.remove('hidden');
+                } else {
+                    info.classList.add('hidden');
+                }
+            });
+        });
     });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.style.color = 'var(--primary-color)';
-        } else {
-            link.style.color = '';
-        }
-    });
-});
+}
 
-// Prevent default for contact form if using basic submission
-document.addEventListener('DOMContentLoaded', () => {
-    // Make sure form doesn't break
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.onsubmit = function(e) {
+// ==================== WORK EXPERIENCE EXPANDING ACCORDION ====================
+function initExperienceAccordion() {
+    const items = document.querySelectorAll('.tour-dates__item');
+
+    items.forEach((item) => {
+        const btn = item.querySelector('[data-button]');
+        if (!btn) return;
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isAlreadyOpen = item.classList.contains('expanded');
+
+            // Automatically close all other rows first
+            items.forEach((otherItem) => {
+                otherItem.classList.remove('expanded');
+                const otherBtn = otherItem.querySelector('[data-button]');
+                if (otherBtn) {
+                    otherBtn.textContent = 'EXPLORE ROLE';
+                }
+                const detailEl = otherItem.querySelector('.tour-detail-drawer');
+                if (detailEl) {
+                    detailEl.style.maxHeight = '0px';
+                    detailEl.style.opacity = '0';
+                }
+            });
+
+            // Expand clicked row if it wasn't open
+            if (!isAlreadyOpen) {
+                item.classList.add('expanded');
+                btn.textContent = 'CLOSE DETAILS';
+                const detailEl = item.querySelector('.tour-detail-drawer');
+                if (detailEl) {
+                    detailEl.style.maxHeight = `${detailEl.scrollHeight + 40}px`;
+                    detailEl.style.opacity = '1';
+                }
+            }
+        });
+    });
+}
+
+// ==================== SMOOTH NAVBAR AUTO-SCROLLING ====================
+function initNavbarScrolling() {
+    const links = document.querySelectorAll('header nav a[href^="#"], .scroll-arrow-link');
+    links.forEach((link) => {
+        link.addEventListener('click', (e) => {
             e.preventDefault();
-            const formStatus = document.getElementById('formStatus');
-            formStatus.textContent = 'Thank you! Your message has been received.';
-            formStatus.classList.add('success');
-            setTimeout(() => {
-                contactForm.reset();
-                formStatus.textContent = '';
-            }, 3000);
-        };
-    }
-});
+            const targetId = link.getAttribute('href');
+            if (targetId === '#') return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerOffset = 70;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-// Add loading animation for images
-const images = document.querySelectorAll('img');
-images.forEach(img => {
-    img.addEventListener('load', function() {
-        this.style.opacity = '1';
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
-});
+}
 
-// Intersection Observer for fade-in animations
-const fadeInElements = document.querySelectorAll('.project-card, .timeline-item, .experience-item, .skill-tag');
-const observerFadeIn = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+// ==================== DYNAMIC SCROLL SECURITY LOCK TRACKER ====================
+function initScrollSecurityLockTracker() {
+    const floatingWidget = document.getElementById('floatingLockWidget');
+    const lockLabel = document.getElementById('floatingLockLabel');
+    const lockIcon = document.getElementById('floatingLockIcon');
+    if (!floatingWidget || !lockLabel || !lockIcon) return;
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+
+        if (scrollPercent < 25) {
+            lockIcon.textContent = "🔒";
+            lockLabel.textContent = "Node 1/4 Verified (Core)";
+            floatingWidget.className = "flex items-center gap-2 font-mono-code text-xs text-blue-700";
+        } else if (scrollPercent < 55) {
+            lockIcon.textContent = "🔒";
+            lockLabel.textContent = "Node 2/4 Verified (Skills)";
+            floatingWidget.className = "flex items-center gap-2 font-mono-code text-xs text-indigo-700";
+        } else if (scrollPercent < 85) {
+            lockIcon.textContent = "🔒";
+            lockLabel.textContent = "Node 3/4 Verified (Projects)";
+            floatingWidget.className = "flex items-center gap-2 font-mono-code text-xs text-sky-700";
+        } else {
+            lockIcon.textContent = "🔓";
+            lockLabel.textContent = "SYSTEM FULLY UNLOCKED!";
+            floatingWidget.className = "flex items-center gap-2 font-mono-code text-xs text-emerald-700 font-extrabold animate-pulse";
         }
     });
-}, {
-    threshold: 0.1
-});
 
-fadeInElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'all 0.6s ease-out';
-    observerFadeIn.observe(el);
+    floatingWidget.addEventListener('click', () => {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ==================== CLI TERMINAL ENGINE ====================
+function initCLITerminal() {
+    const form = document.getElementById('terminalForm');
+    const input = document.getElementById('terminalInput');
+    const body = document.getElementById('terminalBody');
+    const chips = document.querySelectorAll('.cmd-chip');
+    if (!form || !input || !body) return;
+
+    const commands = {
+        help: `Available Commands:
+- 'bio'        : Learn about Agniva's background & career objective
+- 'skills'     : View technical skills matrix & backend stack
+- 'projects'   : List featured production projects & RAG engines
+- 'exp'        : Summary of work experience (VitaData, Auracle Labs)
+- 'contact'    : Get email, phone, and location details
+- 'clear'      : Clear terminal screen`,
+        bio: `Agniva Sardar — Backend Development Engineer Intern
+Computer Science Undergraduate ('28) at VIT Chennai with 9.30 CGPA.
+Specializes in scalable, low-latency, and secure distributed systems.`,
+        skills: `Technical Stack:
+- Languages: Java, C, C++, Python, JavaScript, TypeScript
+- Backend: Node.js, Express.js, Flask, FastAPI, REST APIs, WebSockets
+- DB & Caching: PostgreSQL, MySQL, Redis, Supabase, Prisma ORM
+- Cloud & DevOps: Docker, Docker Compose, AWS EC2, S3, CI/CD, Git`,
+        projects: `Featured Projects:
+1. Crack My DSA (CodePrep AI) — Gemini 1.5 RAG + Strivers A2Z Sheet
+2. Truth Lens — AWS AI for Bharat Hackathon Fact-Checking Microservices
+3. VIT-Verse Streaming Engine — Node.js/TS/Postgres/Redis Live Streaming
+4. Patient AI Synopsis Generator — Stateless Clinical LLM Overview Service`,
+        exp: `Work Experience:
+1. VitaData Solutions (Jan-May 2026): Backend & Cloud Intern | 30-40% API Speedup
+2. Auracle Labs (Sep 2025-Mar 2026): Backend & DB Intern | ~165ms Logon, Redis
+3. Maths Club VITCC (Aug 2025-Present): Tech Lead | 50% Admin Reduction`,
+        contact: `Contact Details:
+- Email: agnivasardarwork@gmail.com
+- Phone: +91 6290166815
+- Location: Chennai, Tamil Nadu, India`
+    };
+
+    function appendOutput(cmd, output) {
+        const cmdLine = document.createElement('div');
+        cmdLine.className = 'text-blue-700 font-bold';
+        cmdLine.textContent = `$ ${cmd}`;
+
+        const outLine = document.createElement('div');
+        outLine.className = 'text-slate-950 font-bold whitespace-pre-wrap';
+        outLine.textContent = output;
+
+        body.appendChild(cmdLine);
+        body.appendChild(outLine);
+        body.scrollTop = body.scrollHeight;
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const rawCmd = input.value.trim().toLowerCase();
+        input.value = '';
+        if (!rawCmd) return;
+
+        if (rawCmd === 'clear') {
+            body.innerHTML = '<div class="text-slate-800 font-bold">Type <span class="text-blue-700 font-black">\'help\'</span> or click a command below.</div>';
+            return;
+        }
+
+        const res = commands[rawCmd] || `Command not recognized: '${rawCmd}'. Type 'help' for available commands.`;
+        appendOutput(rawCmd, res);
+    });
+
+    chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+            const cmd = chip.getAttribute('data-cmd');
+            if (cmd) {
+                if (cmd === 'clear') {
+                    body.innerHTML = '<div class="text-slate-800 font-bold">Type <span class="text-blue-700 font-black">\'help\'</span> or click a command below.</div>';
+                    return;
+                }
+                const res = commands[cmd] || `Executing ${cmd}...`;
+                appendOutput(cmd, res);
+            }
+        });
+    });
+}
+
+// ==================== 1-CLICK CLIPBOARD COPY ====================
+function initClipboardCopy() {
+    const copyBtns = document.querySelectorAll('[data-copy]');
+    copyBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const textToCopy = btn.getAttribute('data-copy');
+            if (textToCopy) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = `<span class="text-emerald-700 font-black">✓ Copied: ${textToCopy}</span>`;
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2500);
+                });
+            }
+        });
+    });
+}
 
 // ==================== TESTIMONIALS CAROUSEL ====================
 function initTestimonialsCarousel() {
-    const track = document.querySelector('.testimonials-track');
     const cards = document.querySelectorAll('.testimonial-card');
     const prevBtn = document.querySelector('.prev-btn');
     const nextBtn = document.querySelector('.next-btn');
-    const indicatorsContainer = document.querySelector('.carousel-indicators');
-    
-    if (!track || cards.length === 0 || !prevBtn || !nextBtn || !indicatorsContainer) return;
-    
+    const indicatorContainer = document.querySelector('.carousel-indicators');
+
+    if (!cards.length) return;
+
     let currentIndex = 0;
-    
-    // Create indicators
-    cards.forEach((_, index) => {
-        const indicator = document.createElement('div');
-        indicator.classList.add('indicator');
-        if (index === 0) indicator.classList.add('active');
-        indicator.addEventListener('click', () => goToSlide(index));
-        indicatorsContainer.appendChild(indicator);
-    });
-    
-    const indicators = document.querySelectorAll('.indicator');
-    
-    function updateCarousel() {
-        cards.forEach((card, index) => {
-            card.classList.remove('active', 'prev');
-            
-            if (index === currentIndex) {
-                card.classList.add('active');
-            } else if (index < currentIndex) {
-                card.classList.add('prev');
+
+    if (indicatorContainer) {
+        indicatorContainer.innerHTML = '';
+        cards.forEach((_, idx) => {
+            const dot = document.createElement('button');
+            dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === 0 ? 'bg-blue-700 w-6' : 'bg-slate-400'}`;
+            dot.addEventListener('click', () => goToSlide(idx));
+            indicatorContainer.appendChild(dot);
+        });
+    }
+
+    function goToSlide(index) {
+        cards.forEach((card, idx) => {
+            if (idx === index) {
+                card.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+                card.classList.add('active', 'opacity-100', 'scale-100');
+            } else {
+                card.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+                card.classList.remove('active', 'opacity-100', 'scale-100');
             }
         });
-        
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentIndex);
+
+        if (indicatorContainer) {
+            const dots = indicatorContainer.querySelectorAll('button');
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.className = 'w-6 h-2.5 rounded-full bg-blue-700 transition-all';
+                } else {
+                    dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-400 transition-all';
+                }
+            });
+        }
+
+        currentIndex = index;
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+            goToSlide(newIndex);
         });
     }
-    
-    function goToSlide(index) {
-        currentIndex = index;
-        updateCarousel();
-    }
-    
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % cards.length;
-        updateCarousel();
-    }
-    
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        updateCarousel();
-    }
-    
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-    
-    // Auto-advance carousel every 8 seconds
-    let autoplayInterval = setInterval(nextSlide, 8000);
-    
-    // Pause autoplay on hover
-    track.addEventListener('mouseenter', () => {
-        clearInterval(autoplayInterval);
-    });
-    
-    track.addEventListener('mouseleave', () => {
-        autoplayInterval = setInterval(nextSlide, 8000);
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') prevSlide();
-        if (e.key === 'ArrowRight') nextSlide();
-    });
-    
-    // Touch/swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    track.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-    
-    track.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-    
-    function handleSwipe() {
-        if (touchEndX < touchStartX - 50) nextSlide();
-        if (touchEndX > touchStartX + 50) prevSlide();
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const newIndex = (currentIndex + 1) % cards.length;
+            goToSlide(newIndex);
+        });
     }
 }
+
+// INITIALIZE EVERYTHING ON DOM CONTENT LOADED
+document.addEventListener('DOMContentLoaded', () => {
+    initLoadingAnimation();
+    setTimeout(showWelcomeScreen, 1800);
+
+    initCursorBubble();
+    initSoundToggle();
+    initVinylProjectSelector();
+    initExperienceAccordion();
+    initNavbarScrolling();
+    initScrollSecurityLockTracker();
+    initCLITerminal();
+    initClipboardCopy();
+    initTestimonialsCarousel();
 });
