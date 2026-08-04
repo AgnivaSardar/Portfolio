@@ -139,7 +139,12 @@ function initVinylProjectSelector() {
         trigger.addEventListener('click', () => {
             const targetId = trigger.getAttribute('data-trigger');
 
-            triggers.forEach((t) => t.classList.remove('bg-blue-700', 'text-white'));
+            triggers.forEach((t) => {
+                t.classList.remove('bg-blue-700', 'text-white');
+                t.classList.add('bg-white', 'text-slate-950');
+            });
+
+            trigger.classList.remove('bg-white', 'text-slate-950');
             trigger.classList.add('bg-blue-700', 'text-white');
 
             visualItems.forEach((v) => {
@@ -426,6 +431,122 @@ function initTestimonialsCarousel() {
     }
 }
 
+// ==================== CONTACT FORM HANDLER (FIREBASE / FORMSUBMIT AJAX) ====================
+function initContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    const statusDiv = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    if (!contactForm || !submitBtn || !statusDiv) return;
+
+    function showStatus(message, type = 'success') {
+        statusDiv.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-950', 'border-emerald-700', 'bg-rose-100', 'text-rose-950', 'border-rose-700');
+        if (type === 'success') {
+            statusDiv.classList.add('bg-emerald-100', 'text-emerald-950', 'border-black');
+            statusDiv.innerHTML = `✓ ${message}`;
+        } else {
+            statusDiv.classList.add('bg-rose-100', 'text-rose-950', 'border-black');
+            statusDiv.innerHTML = `⚠️ ${message}`;
+        }
+    }
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const email = emailInput ? emailInput.value.trim() : '';
+        const message = messageInput ? messageInput.value.trim() : '';
+
+        // Basic validation
+        if (!name || name.length < 2) {
+            showStatus('Please enter a valid name.', 'error');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            showStatus('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        if (!message || message.length < 5) {
+            showStatus('Please enter a message (at least 5 characters).', 'error');
+            return;
+        }
+
+        // Loading state
+        submitBtn.disabled = true;
+        const originalBtnHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>SENDING...</span>
+        `;
+        statusDiv.classList.add('hidden');
+
+        try {
+            // Send payload to FormSubmit service targeting user email
+            const payload = {
+                name: name,
+                email: email,
+                message: message,
+                _subject: `New Portfolio Message from ${name}`,
+                _template: "table"
+            };
+
+            const response = await fetch('https://formsubmit.co/ajax/agnivasardarwork@gmail.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            // Also check if custom Firebase instance exists on window
+            if (window.db && typeof window.db.collection === 'function') {
+                try {
+                    await window.db.collection('messages').add({
+                        name,
+                        email,
+                        message,
+                        timestamp: new Date().toISOString()
+                    });
+                } catch (fbErr) {
+                    console.log('Firebase submit notice:', fbErr);
+                }
+            }
+
+            if (response.ok) {
+                showStatus('Message sent successfully! Thank you for reaching out, I will get back to you soon.', 'success');
+                contactForm.reset();
+                submitBtn.innerHTML = '<span>MESSAGE SENT ✓</span>';
+                submitBtn.classList.remove('bg-blue-700');
+                submitBtn.classList.add('bg-emerald-600');
+                
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                    submitBtn.classList.remove('bg-emerald-600');
+                    submitBtn.classList.add('bg-blue-700');
+                }, 4000);
+            } else {
+                throw new Error('Server returned an error status.');
+            }
+        } catch (err) {
+            console.error('Contact form submission error:', err);
+            showStatus('Message could not be sent directly. Please email directly to agnivasardarwork@gmail.com.', 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHTML;
+        }
+    });
+}
+
 // INITIALIZE EVERYTHING ON DOM CONTENT LOADED
 document.addEventListener('DOMContentLoaded', () => {
     initLoadingAnimation();
@@ -440,4 +561,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initCLITerminal();
     initClipboardCopy();
     initTestimonialsCarousel();
+    initContactForm();
 });
